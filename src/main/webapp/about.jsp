@@ -36,34 +36,18 @@
     <div
       style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
 
-      <h1>About the CodeU Chat App</h1>
+      <h1>Meet the Team</h1>
       <p>
-        This is an example chat application designed to be a starting point
-        for your CodeU project team work. Here's some stuff to think about:
+        We are the awesome team of leet programmers brought together by Google known 		as ...Optimize Primes. We all come from different parts of the East Coast and 		are in the process of developing the greatest chat app ever.
       </p>
 
       <ul>
-        <li><strong>Algorithms and data structures:</strong> We've made the app
-            and the code as simple as possible. You will have to extend the
-            existing data structures to support your enhancements to the app,
-            and also make changes for performance and scalability as your app
-            increases in complexity.</li>
-        <li><strong>Look and feel:</strong> The focus of CodeU is on the Java
-          side of things, but if you're particularly interested you might use
-          HTML, CSS, and JavaScript to make the chat app prettier.</li>
-        <li><strong>Customization:</strong> Think about a group you care about.
-          What needs do they have? How could you help? Think about technical
-          requirements, privacy concerns, and accessibility and
-          internationalization.</li>
+        <li><strong>Elizabeth Harkavy:</strong> I am a sophomore at MIT. I'm majoring 		in Computer Science and Physics. I rewrte gravity so that it pulls customers 		to our app.</li>
+        <li><strong>Gabrielle Blom:</strong> I am a sophomore at Emory. I'm majoring 		in Computer Science and Polical Science. I lobby to the federal government 		for our app to be taught in elementary schools.</li>
+        <li><strong>James Garcia-Otero:</strong> I am a sophomore at the University 		of Virginia. I major in Computer Engineering and Electrical Engineering. I 		build the machines we run on.</li>
+        <li><strong>Jiachen Jiang:</strong> I am a sophomore at Dartmouth. I'm 		majoring in Computer Science and minoring in Human-Centered Design. I create 		new humans in the lab to test our app on.</li>
       </ul>
 
-      <p>
-        This is your code now. Get familiar with it and get comfortable
-        working with your team to plan and make changes. Start by updating the
-        homepage and this about page to tell your users more about your team.
-        This page should also be used to describe the features and improvements
-        you've added.
-      </p>
     </div>
   </div>
 </body>
