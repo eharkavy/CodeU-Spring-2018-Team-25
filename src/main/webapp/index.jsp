@@ -37,7 +37,7 @@
     <div
       style="width:75%; margin-left:auto; margin-right:auto; margin-top: 50px;">
 
-      <h1>CodeU Chat App by Team Optimize Prime</h1>
+      <h1>CodeU Chat App by Team Optimized Primes</h1>
       <h2>Welcome!</h2>
 
       <ul>
