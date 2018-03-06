@@ -38,7 +38,7 @@
 
       <h1>Meet the Team</h1>
       <p>
-        We are the awesome team of leet programmers brought together by Google known 		as ...Optimize Primes. We all come from different parts of the East Coast and 		are in the process of developing the greatest chat app ever.
+        We are the awesome team of leet programmers brought together by Google known 		as ...Optimized Primes. We all come from different parts of the East Coast 		and are in the process of developing the greatest chat app ever.
       </p>
 
       <ul>
