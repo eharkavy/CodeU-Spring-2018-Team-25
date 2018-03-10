@@ -16,15 +16,16 @@ package codeu.model.data;
 
 import java.time.Instant;
 import java.util.UUID;
+import org.mindrot.jbcrypt.*;
 
 /** Class representing a registered user. */
 public class User {
   private final UUID id;
   private final String name;
-  private final String password;
+  private final String hashedpassword;
   private final Instant creation;
 
-  /**
+  /**shed
    * Constructs a new User.
    *
    * @param id the ID of this User
@@ -32,10 +33,10 @@ public class User {
    * @param password the password of this User
    * @param creation the creation time of this User
    */
-  public User(UUID id, String name, String password, Instant creation) {
+  public User(UUID id, String name, String hashedpassword, Instant creation) {
     this.id = id;
     this.name = name;
-    this.password = password;
+    this.hashedpassword = hashedpassword;
     this.creation = creation;
   }
 
@@ -51,7 +52,7 @@ public class User {
   
   /** Returns the password of this User */
  public String getPassword() {
- 	return password;
+ 	return hashedpassword;
  }
 
   /** Returns the creation time of this User. */
