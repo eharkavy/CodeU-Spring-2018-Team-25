@@ -27,6 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.mindrot.jbcrypt.*;
 
 public class LoginServletTest {
 
@@ -62,7 +63,7 @@ public class LoginServletTest {
     User mockUser = Mockito.mock(User.class);
     Mockito.when(mockUserStore.getUser("test username")).thenReturn(mockUser);
     Mockito.when(mockUserStore.isUserRegistered("test username")).thenReturn(true);
-    Mockito.when(mockUser.getPassword()).thenReturn("test password");
+    Mockito.when(mockUser.getPassword()).thenReturn(BCrypt.hashpw("test password", BCrypt.gensalt()));
     loginServlet.setUserStore(mockUserStore);
 
     HttpSession mockSession = Mockito.mock(HttpSession.class);
@@ -86,7 +87,7 @@ public class LoginServletTest {
     User mockUser = Mockito.mock(User.class);
     Mockito.when(mockUserStore.getUser("test username")).thenReturn(mockUser);
     Mockito.when(mockUserStore.isUserRegistered("test username")).thenReturn(true);
-    Mockito.when(mockUser.getPassword()).thenReturn("wrong password");
+    Mockito.when(mockUser.getPassword()).thenReturn(BCrypt.hashpw("wrong password", BCrypt.gensalt()));
     loginServlet.setUserStore(mockUserStore);
 
     HttpSession mockSession = Mockito.mock(HttpSession.class);
@@ -99,6 +100,7 @@ public class LoginServletTest {
     Mockito.verify(mockRequest).setAttribute("error", "Invalid password.");
     Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/view/login.jsp");
   }
+
 @Test
   public void testDoPost_ExistingUserIncorrectUsername() throws IOException, ServletException {
     Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
@@ -108,7 +110,7 @@ public class LoginServletTest {
     User mockUser = Mockito.mock(User.class);
     Mockito.when(mockUserStore.getUser("test username")).thenReturn(mockUser);
     Mockito.when(mockUserStore.isUserRegistered("test username")).thenReturn(false);
-    Mockito.when(mockUser.getPassword()).thenReturn("test password");
+    Mockito.when(mockUser.getPassword()).thenReturn(BCrypt.hashpw("test password", BCrypt.gensalt()));
     loginServlet.setUserStore(mockUserStore);
 
     HttpSession mockSession = Mockito.mock(HttpSession.class);
