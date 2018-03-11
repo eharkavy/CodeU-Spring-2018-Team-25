@@ -25,6 +25,7 @@
 <body>
 
   <nav>
+    <%@ include file = "header.jsp" %>
     <a id="navTitle" href="/">CodeU Chat App</a>
     <a href="/conversations">Conversations</a>
     <% if(request.getSession().getAttribute("user") != null){ %>
