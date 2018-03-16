@@ -24,6 +24,7 @@ public class User {
   private final String name;
   private final String hashedpassword;
   private final Instant creation;
+  private final boolean admin;
 
   /**shed
    * Constructs a new User.
@@ -32,12 +33,14 @@ public class User {
    * @param name the username of this User
    * @param password the password of this User
    * @param creation the creation time of this User
+   * @param admin whether or not this account has admin priviliges
    */
-  public User(UUID id, String name, String hashedpassword, Instant creation) {
+  public User(UUID id, String name, String hashedpassword, Instant creation, boolean admin) {
     this.id = id;
     this.name = name;
     this.hashedpassword = hashedpassword;
     this.creation = creation;
+    this.admin = admin;
   }
 
   /** Returns the ID of this User. */
@@ -58,5 +61,10 @@ public class User {
   /** Returns the creation time of this User. */
   public Instant getCreationTime() {
     return creation;
+  }
+  
+  /** Returns whether or not this account has admin priviliges **/
+  public boolean getAdmin() {
+  	return admin;
   }
 }
