@@ -87,9 +87,21 @@ public class RegisterServletTest {
 
     registerServlet.doPost(mockRequest, mockResponse);
 
- 
+    Mockito.verify(mockRequest).setAttribute("error", "That username is already taken.");
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
    
   }
 
+ @Test
+  public void testDoPost_FakeAdmin() throws IOException, ServletException {
+
+    Mockito.when(mockRequest.getParameter("username")).thenReturn("admin");
+
+    UserStore mockUserStore = Mockito.mock(UserStore.class);
+    Mockito.when(mockUserStore.isUserRegistered("test username")).thenReturn(false);
+    
+    registerServlet.doPost(mockRequest, mockResponse);
+
+    Mockito.verify(mockRequest).setAttribute("error", "That username is already taken.");
+    Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
 }
