@@ -15,24 +15,36 @@
 --%>
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Load Test Data</title>
-  <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
+<% if(request.getSession().getAttribute("user") != null) {%>
+	<% if(request.getSession().getAttribute("user").equals("admin")){ %>
+		<head>
+  		  <title>Load Test Data</title>
+  	 	  <link rel="stylesheet" href="/css/main.css">
+		</head>
+		<body>
 
-  <nav>
-    <%@ include file = "header.jsp" %>
-  </nav>
-
-  <div id="container">
-    <h1>Load Test Data</h1>
-    <p>This will load a number of users, conversations, and messages for testing
-        purposes.</p>
-    <form action="/testdata" method="POST">
-      <button type="submit" value="confirm" name="confirm">Confirm</button>
-      <button type="submit" value="cancel" name="cancel">Do Nothing</button>
-    </form>
-  </div>
-</body>
+  		  <nav>
+    		<%@ include file = "header.jsp" %>
+  		  </nav>
+  		  <div id="container">
+    	    <h1>Load Test Data</h1>
+            <p>This will load a number of users, conversations, and messages for testing
+        		purposes.</p>
+    		<form action="/testdata" method="POST">
+      		  <button type="submit" value="confirm" name="confirm">Confirm</button>
+      		  <button type="submit" value="cancel" name="cancel">Do Nothing</button>
+    		</form>
+  		  </div>
+		</body>  		
+	<% } %>
+<% } %>
+<% if(request.getSession().getAttribute("user") == null || !(request.getSession().getAttribute("user").equals("admin"))) {%>
+ 	<head>
+  	  <title>NICE TRY!</title>
+  	  <link rel="stylesheet" href="/css/main.css">
+	</head>
+	<body>
+	  <a id="navTitle" href="/"> NOT AN ADMIN!! </a>
+	</body>
+<% } %>
 </html>
