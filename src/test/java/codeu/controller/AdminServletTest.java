@@ -27,9 +27,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-public class TestDataServletTest {
+public class AdminServletTest {
 
-  private TestDataServlet testDataServlet;
+  private AdminServlet adminServlet;
   private HttpServletRequest mockRequest;
   private HttpSession mockSession;
   private HttpServletResponse mockResponse;
@@ -40,7 +40,7 @@ public class TestDataServletTest {
 
   @Before
   public void setup() {
-    testDataServlet = new TestDataServlet();
+    adminServlet = new AdminServlet();
 
     mockRequest = Mockito.mock(HttpServletRequest.class);
     mockSession = Mockito.mock(HttpSession.class);
@@ -48,22 +48,22 @@ public class TestDataServletTest {
 
     mockResponse = Mockito.mock(HttpServletResponse.class);
     mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
-    Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/testdata.jsp"))
+    Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/admin.jsp"))
         .thenReturn(mockRequestDispatcher);
 
     mockConversationStore = Mockito.mock(ConversationStore.class);
-    testDataServlet.setConversationStore(mockConversationStore);
+    adminServlet.setConversationStore(mockConversationStore);
 
     mockMessageStore = Mockito.mock(MessageStore.class);
-    testDataServlet.setMessageStore(mockMessageStore);
+    adminServlet.setMessageStore(mockMessageStore);
 
     mockUserStore = Mockito.mock(UserStore.class);
-    testDataServlet.setUserStore(mockUserStore);
+    adminServlet.setUserStore(mockUserStore);
   }
 
   @Test
   public void testDoGet() throws IOException, ServletException {
-    testDataServlet.doGet(mockRequest, mockResponse);
+    adminServlet.doGet(mockRequest, mockResponse);
 
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
@@ -72,7 +72,7 @@ public class TestDataServletTest {
   public void testDoPost_Confirm() throws IOException, ServletException {
     Mockito.when(mockRequest.getParameter("confirm")).thenReturn("confirm");
 
-    testDataServlet.doPost(mockRequest, mockResponse);
+    adminServlet.doPost(mockRequest, mockResponse);
 
     Mockito.verify(mockUserStore).loadTestData();
     Mockito.verify(mockConversationStore).loadTestData();
@@ -85,7 +85,7 @@ public class TestDataServletTest {
     Mockito.when(mockRequest.getParameter("confirm")).thenReturn(null);
     Mockito.when(mockRequest.getParameter("cancel")).thenReturn("cancel");
 
-    testDataServlet.doPost(mockRequest, mockResponse);
+    adminServlet.doPost(mockRequest, mockResponse);
 
     Mockito.verify(mockUserStore, Mockito.never()).loadTestData();
     Mockito.verify(mockConversationStore, Mockito.never()).loadTestData();

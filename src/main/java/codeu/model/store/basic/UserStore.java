@@ -122,4 +122,11 @@ public class UserStore {
   public void setUsers(List<User> users) {
     this.users = users;
   }
+  
+  /**
+   * Returns the number of users
+   */
+  public int getNumUsers(){
+  	return users.size();
+  }
 }
