@@ -23,7 +23,6 @@
 
   <nav>
     <%@ include file = "header.jsp" %>
-    <a href="/testdata">Load Test Data</a>
   </nav>
 
   <div id="container">

@@ -27,6 +27,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.mindrot.jbcrypt.*;
 
 /**
  * This class handles all interactions with Google App Engine's Datastore service. On startup it
@@ -76,7 +77,25 @@ public class PersistentDataStore {
         throw new PersistentDataStoreException(e);
       }
     }
-
+	
+	// Check if admin is in list. Add the admin if it isn't.
+	try {
+		boolean inlist = false;
+		for (int i = 0; i < users.size(); i++){
+			if(users.get(i).getName() == "admin"){
+				inlist = true;
+			}
+		}
+		if(!inlist){
+			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.now(), false);
+			users.add(user);
+		}
+	} catch (Exception e){
+        // In a production environment, errors should be very rare. Errors which may
+        // occur include network errors, Datastore service errors, authorization errors,
+        // database entity definition mismatches, or service mismatches.
+        throw new PersistentDataStoreException(e);
+	}
     return users;
   }
 
