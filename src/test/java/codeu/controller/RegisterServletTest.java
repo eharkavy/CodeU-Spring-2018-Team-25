@@ -98,10 +98,15 @@ public class RegisterServletTest {
     Mockito.when(mockRequest.getParameter("username")).thenReturn("admin");
 
     UserStore mockUserStore = Mockito.mock(UserStore.class);
-    Mockito.when(mockUserStore.isUserRegistered("test username")).thenReturn(false);
-    
+    Mockito.when(mockUserStore.isUserRegistered("admin")).thenReturn(false);
+    registerServlet.setUserStore(mockUserStore);
+
+    HttpSession mockSession = Mockito.mock(HttpSession.class);
+    Mockito.when(mockRequest.getSession()).thenReturn(mockSession);
+
     registerServlet.doPost(mockRequest, mockResponse);
 
     Mockito.verify(mockRequest).setAttribute("error", "That username is already taken.");
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
+  }
 }
