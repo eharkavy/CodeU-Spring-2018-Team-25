@@ -117,4 +117,9 @@ public class ConversationStore {
   public void setConversations(List<Conversation> conversations) {
     this.conversations = conversations;
   }
+  
+  /** Returns the number of messages **/
+  public int getNumConversations(){
+  	return conversations.size();
+  }
 }

@@ -9,6 +9,6 @@
 <% } %>
 <% if(request.getSession().getAttribute("user") != null) {%>
 	<% if(request.getSession().getAttribute("user").equals("admin")){ %>
-  	<a href="/testdata">Load test data</a>
+  	<a href="/admin">Admin</a>
 	<% } %>
 <% } %>

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /** Servlet class responsible for loading test data. */
-public class TestDataServlet extends HttpServlet {
+public class AdminServlet extends HttpServlet {
 
   /** Store class that gives access to Conversations. */
   private ConversationStore conversationStore;
@@ -69,13 +69,16 @@ public class TestDataServlet extends HttpServlet {
   }
 
   /**
-   * This function fires when a user requests the /testdata URL. It simply forwards the request to
+   * This function fires when a user requests the /testdata URL. It sets useful statistics to be displayed and then forwards the request to
    * testdata.jsp.
    */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    request.getRequestDispatcher("/WEB-INF/view/testdata.jsp").forward(request, response);
+    request.getSession().setAttribute("numUsers", userStore.getNumUsers());
+    request.getSession().setAttribute("numConversations", conversationStore.getNumConversations());
+    request.getSession().setAttribute("numMessages", messageStore.getNumMessages());
+    request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 
   /**

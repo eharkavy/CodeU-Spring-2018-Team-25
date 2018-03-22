@@ -18,7 +18,7 @@
 <% if(request.getSession().getAttribute("user") != null) {%>
 	<% if(request.getSession().getAttribute("user").equals("admin")){ %>
 		<head>
-  		  <title>Load Test Data</title>
+  		  <title>Admin</title>
   	 	  <link rel="stylesheet" href="/css/main.css">
 		</head>
 		<body>
@@ -27,10 +27,14 @@
     		<%@ include file = "header.jsp" %>
   		  </nav>
   		  <div id="container">
-    	    <h1>Load Test Data</h1>
+  		  	<h1>Site Statistics</h1>
+  		  	<p>Users: <%=request.getSession().getAttribute("numUsers")%></p>
+  		  	<p>Conversations: <%=request.getSession().getAttribute("numConversations")%></p>
+  		  	<p>Messages: <%=request.getSession().getAttribute("numMessages")%></p>
+    	    <h2>Load Test Data</h2>
             <p>This will load a number of users, conversations, and messages for testing
         		purposes.</p>
-    		<form action="/testdata" method="POST">
+    		<form action="/admin" method="POST">
       		  <button type="submit" value="confirm" name="confirm">Confirm</button>
       		  <button type="submit" value="cancel" name="cancel">Do Nothing</button>
     		</form>
