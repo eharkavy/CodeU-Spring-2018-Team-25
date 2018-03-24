@@ -31,6 +31,8 @@
   		  	<p>Users: <%=request.getSession().getAttribute("numUsers")%></p>
   		  	<p>Conversations: <%=request.getSession().getAttribute("numConversations")%></p>
   		  	<p>Messages: <%=request.getSession().getAttribute("numMessages")%></p>
+  		  	<p>Most Active User: <%=request.getSession().getAttribute("mostActive")%></p>
+  		  	<p>Newest User: <%=request.getSession().getAttribute("newestUser")%></p>
     	    <h2>Load Test Data</h2>
             <p>This will load a number of users, conversations, and messages for testing
         		purposes.</p>

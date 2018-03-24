@@ -15,6 +15,7 @@
 package codeu.model.store.basic;
 
 import codeu.model.data.User;
+import java.time.Instant;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,5 +129,29 @@ public class UserStore {
    */
   public int getNumUsers(){
   	return users.size();
+  }
+  
+  /** Access the username of the newest User 
+  * 
+  * @return null if no users or if admin is the only user
+  */
+  public String getNewest(){
+  	if(users.size() == 0){
+  		return null;
+  	}
+  	Instant newestSoFar = users.get(0).getCreationTime();
+  	User newestUserSoFar = users.get(0);
+  	for(User user : users){
+  		if(user.getCreationTime().isAfter(newestSoFar)){
+  			newestUserSoFar = user;
+  			newestSoFar = user.getCreationTime();
+  		}
+  	}
+  	if(newestUserSoFar.getName().equals("admin")){
+  		return null;
+  	}
+  	else{
+  		return newestUserSoFar.getName();
+  	}
   }
 }

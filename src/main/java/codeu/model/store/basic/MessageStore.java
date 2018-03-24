@@ -16,9 +16,13 @@ package codeu.model.store.basic;
 
 import codeu.model.data.Message;
 import codeu.model.store.persistence.PersistentStorageAgent;
+import codeu.model.store.basic.UserStore;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Hashtable;
+import java.util.Set;
+
 
 /**
  * Store class that uses in-memory data structures to hold values and automatically loads from and
@@ -29,6 +33,9 @@ public class MessageStore {
 
   /** Singleton instance of MessageStore. */
   private static MessageStore instance;
+  
+  /** Store class that gives access to Users. */
+  private UserStore userStore;
 
   /**
    * Returns the singleton instance of MessageStore that should be shared between all servlet
@@ -110,5 +117,42 @@ public class MessageStore {
   /** Returns number of Messages **/
   public int getNumMessages(){
   	return messages.size();
+  }
+  
+  /** Access the most active user 
+  * @return null if there are no messages.
+  **/
+  public String getMostActive(){
+  	Message temp;
+  	UUID mostActive = null;
+  	int numMessages = -1;
+  	Hashtable<UUID, Integer> users = new Hashtable<UUID, Integer>();
+  	// Count the number of messages each user sends
+  	Integer num;
+  	for(int i = 0; i < messages.size(); i++){
+  		temp = messages.get(i);
+  		if(users.contains(temp.getAuthorId())){
+  			num = users.get(temp.getAuthorId());
+  			users.put(temp.getAuthorId(), num + 1);
+  		}
+  		else{
+  			users.put(temp.getAuthorId(), 0);
+  		}
+  	}
+  	// Find the user ID of the person who sent the most messages
+  	Set<UUID> keys = users.keySet();
+  	for(UUID key: keys){
+  		if(users.get(key) > numMessages){
+  			numMessages = users.get(key);
+  			mostActive = key;
+  		}
+  	}
+  	// Convert the user ID to the username and return it
+  	userStore = UserStore.getInstance();
+  	if(mostActive == null){
+  		return null;
+  	}
+  	else
+  		return userStore.getUser(mostActive).getName();
   }
 }

@@ -7,6 +7,7 @@
   <a href="/login">Login</a>
   <a href="/register">Register</a>
 <% } %>
+<a href="/about.jsp">About</a>
 <% if(request.getSession().getAttribute("user") != null) {%>
 	<% if(request.getSession().getAttribute("user").equals("admin")){ %>
   	<a href="/admin">Admin</a>
