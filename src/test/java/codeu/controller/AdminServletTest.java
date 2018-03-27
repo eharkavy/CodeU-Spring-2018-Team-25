@@ -62,12 +62,41 @@ public class AdminServletTest {
   }
 
   @Test
-  public void testDoGet() throws IOException, ServletException {
+  public void testDoGet_ExistingUsers() throws IOException, ServletException {
+  	Mockito.when(mockConversationStore.getNumConversations()).thenReturn(10);
+  	Mockito.when(mockUserStore.getNumUsers()).thenReturn(5);
+  	Mockito.when(mockMessageStore.getNumMessages()).thenReturn(20);
+  	Mockito.when(mockMessageStore.getMostActive()).thenReturn("username1");
+  	Mockito.when(mockUserStore.getNewest()).thenReturn("username2");
+  	
     adminServlet.doGet(mockRequest, mockResponse);
 
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
+    Mockito.verify(mockSession).setAttribute("numConversations", 10);
+    Mockito.verify(mockSession).setAttribute("numUsers", 5);
+    Mockito.verify(mockSession).setAttribute("numMessages", 20);
+    Mockito.verify(mockSession).setAttribute("mostActive", "username1");
+    Mockito.verify(mockSession).setAttribute("newestUser", "username2");
   }
+  
+  @Test
+  public void testDoGet_NoUsers() throws IOException, ServletException {
+  	Mockito.when(mockConversationStore.getNumConversations()).thenReturn(0);
+  	Mockito.when(mockUserStore.getNumUsers()).thenReturn(1);
+  	Mockito.when(mockMessageStore.getNumMessages()).thenReturn(0);
+  	Mockito.when(mockMessageStore.getMostActive()).thenReturn(null);
+  	Mockito.when(mockUserStore.getNewest()).thenReturn(null);
+  	
+    adminServlet.doGet(mockRequest, mockResponse);
 
+    Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
+    Mockito.verify(mockSession).setAttribute("numConversations", 0);
+    Mockito.verify(mockSession).setAttribute("numUsers", 1);
+    Mockito.verify(mockSession).setAttribute("numMessages", 0);
+    Mockito.verify(mockSession).setAttribute("mostActive", "No Messages");
+    Mockito.verify(mockSession).setAttribute("newestUser", "No Users");
+  }
+  
   @Test
   public void testDoPost_Confirm() throws IOException, ServletException {
     Mockito.when(mockRequest.getParameter("confirm")).thenReturn("confirm");
