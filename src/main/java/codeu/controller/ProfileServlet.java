@@ -37,14 +37,38 @@ public class ProfileServlet extends HttpServlet {
   /** Store class that gives access to Users. */
   private UserStore userStore;
 
+  /** Store class that gives access to Messages. */
+  private MessageStore messageStore;
+
+  /** Store class that gives access to Conversations. */
+  private ConversationStore conversationStore;
+
   /**
-   * Set up state for handling login-related requests. This method is only called when running in a
+   * Set up state for handling conversation/message-retrieval requests. This method is only called when running in a
    * server, not when running in a test.
    */
   @Override
   public void init() throws ServletException {
     super.init();
     setUserStore(UserStore.getInstance());
+    setConversationStore(ConversationStore.getInstance());
+    setMessageStore(MessageStore.getInstance());
+  }
+
+  /**
+   * Sets the ConversationStore used by this servlet. This function provides a common setup method
+   * for use by the test framework or the servlet's init() function.
+   */
+  void setConversationStore(ConversationStore conversationStore) {
+    this.conversationStore = conversationStore;
+  }
+
+  /**
+   * Sets the MessageStore used by this servlet. This function provides a common setup method for
+   * use by the test framework or the servlet's init() function.
+   */
+  void setMessageStore(MessageStore messageStore) {
+    this.messageStore = messageStore;
   }
 
   /**
@@ -53,6 +77,37 @@ public class ProfileServlet extends HttpServlet {
    */
   void setUserStore(UserStore userStore) {
     this.userStore = userStore;
+  }
+
+  /**
+   * This function fires when a user navigates to the profile page. It gets the name of the user from
+   * the URL, finds the corresponding User, and fetches the about me of the User, as well as the Messages they have sent.
+   * It then forwards to profile.jsp for rendering.
+   * Finished: Modified User model to include an about me, set up ProfileServlet and profile.jsp
+   * To-do:
+   *
+   */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException {
+    String requestUrl = request.getRequestURI();
+    String userName = requestUrl.substring("/profile/".length());
+
+    User user = userStore.getUser(userName);
+    if (user == null) {
+      // couldn't find user, redirect to conversation list
+      System.out.println("User was null: " + userName);
+      response.sendRedirect("/conversations");
+      return;
+    }
+
+    UUID userId = user.getId();
+
+    String about = user.getAbout();
+
+    request.setAttribute("user", user);
+    request.setAttribute("aboutme", about);
+    request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
   }
 
 }

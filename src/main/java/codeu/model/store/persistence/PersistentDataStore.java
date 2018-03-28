@@ -68,7 +68,8 @@ public class PersistentDataStore {
         String password = (String) entity.getProperty("password");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
         boolean admin = Boolean.parseBoolean((String) entity.getProperty("admin"));
-        User user = new User(uuid, userName, password, creationTime, admin);
+        String about = (String) entity.getProperty("admin");
+        User user = new User(uuid, userName, password, creationTime, admin, about);
         users.add(user);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
@@ -77,7 +78,7 @@ public class PersistentDataStore {
         throw new PersistentDataStoreException(e);
       }
     }
-	
+
 	// Check if admin is in list. Add the admin if it isn't.
 	try {
 		boolean inlist = false;
@@ -87,7 +88,7 @@ public class PersistentDataStore {
 			}
 		}
 		if(!inlist){
-			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.now(), false);
+			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.now(), false, "To be edited");
 			users.add(user);
 		}
 	} catch (Exception e){

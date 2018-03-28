@@ -137,7 +137,7 @@ public class ChatServletTest {
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
     Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
-    User fakeUser = new User(UUID.randomUUID(), "test_username", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.now(), false);
+    User fakeUser = new User(UUID.randomUUID(), "test_username", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.now(), false, "To be edited");
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 
     Mockito.when(mockConversationStore.getConversationWithTitle("test_conversation"))
@@ -154,7 +154,7 @@ public class ChatServletTest {
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
     Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
-    User fakeUser = new User(UUID.randomUUID(), "test_username", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.now(), false);
+    User fakeUser = new User(UUID.randomUUID(), "test_username", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.now(), false, "To be edited");
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 
     Conversation fakeConversation =
@@ -178,7 +178,7 @@ public class ChatServletTest {
     Mockito.when(mockRequest.getRequestURI()).thenReturn("/chat/test_conversation");
     Mockito.when(mockSession.getAttribute("user")).thenReturn("test_username");
 
-    User fakeUser = new User(UUID.randomUUID(), "test_username", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.now(), false);
+    User fakeUser = new User(UUID.randomUUID(), "test_username", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.now(), false, "To be edited");
     Mockito.when(mockUserStore.getUser("test_username")).thenReturn(fakeUser);
 
     Conversation fakeConversation =

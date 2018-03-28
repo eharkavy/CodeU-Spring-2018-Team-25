@@ -44,14 +44,14 @@ public class PersistentDataStoreTest {
     String passwordOne = BCrypt.hashpw("password", BCrypt.gensalt());
     Instant creationOne = Instant.ofEpochMilli(1000);
     boolean adminOne = false;
-    User inputUserOne = new User(idOne, nameOne, passwordOne, creationOne, adminOne);
+    User inputUserOne = new User(idOne, nameOne, passwordOne, creationOne, adminOne, "To be edited");
 
     UUID idTwo = UUID.randomUUID();
     String nameTwo = "test_username_two";
     String passwordTwo = BCrypt.hashpw("password", BCrypt.gensalt());
     Instant creationTwo = Instant.ofEpochMilli(2000);
     boolean adminTwo = true;
-    User inputUserTwo = new User(idTwo, nameTwo, passwordTwo, creationTwo, adminTwo);
+    User inputUserTwo = new User(idTwo, nameTwo, passwordTwo, creationTwo, adminTwo, "To be edited");
 
     // save
     persistentDataStore.writeThrough(inputUserOne);
