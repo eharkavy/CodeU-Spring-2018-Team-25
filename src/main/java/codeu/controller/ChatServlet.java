@@ -157,3 +157,8 @@ public class ChatServlet extends HttpServlet {
     response.sendRedirect("/chat/" + conversationTitle);
   }
 }
+// 
+// public void goToProfile HttpServletRequest request, HttpServletResponse response)
+//     throws IOException, ServletException {
+//
+//     }
