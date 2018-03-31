@@ -35,7 +35,7 @@
       </p>
 
       <ul>
-        <li><strong>Elizabeth Harkavy:</strong> I am a sophomore at MIT. I'm majoring 		in Computer Science and Physics. I rewrte gravity so that it pulls customers 		to our app.</li>
+        <li><strong>Elizabeth Harkavy:</strong> I am a sophomore at MIT. I'm majoring 		in Computer Science and Physics. I rewrite gravity so that it pulls customers 		to our app.</li>
         <li><strong>Gabrielle Blom:</strong> I am a sophomore at Emory. I'm majoring 		in Computer Science and Polical Science. I lobby to the federal government 		for our app to be taught in elementary schools.</li>
         <li><strong>James Garcia-Otero:</strong> I am a sophomore at the University 		of Virginia. I major in Computer Engineering and Electrical Engineering. I 		build the machines we run on.</li>
         <li><strong>Jiachen Jiang:</strong> I am a sophomore at Dartmouth. I'm 		majoring in Computer Science and minoring in Human-Centered Design. I create 		new humans in the lab to test our app on.</li>
