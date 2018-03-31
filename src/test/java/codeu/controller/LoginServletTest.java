@@ -58,6 +58,7 @@ public class LoginServletTest {
   public void testDoPost_ExistingUserCorrectPassword() throws IOException, ServletException {
     Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
     Mockito.when(mockRequest.getParameter("password")).thenReturn("test password");
+    Mockito.when(mockRequest.getParameter("login")).thenReturn("login");
 
     UserStore mockUserStore = Mockito.mock(UserStore.class);
     User mockUser = Mockito.mock(User.class);
@@ -82,6 +83,7 @@ public class LoginServletTest {
   public void testDoPost_ExistingUserIncorrectPassword() throws IOException, ServletException {
     Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
     Mockito.when(mockRequest.getParameter("password")).thenReturn("test password");
+    Mockito.when(mockRequest.getParameter("login")).thenReturn("login");
 
     UserStore mockUserStore = Mockito.mock(UserStore.class);
     User mockUser = Mockito.mock(User.class);
@@ -105,6 +107,7 @@ public class LoginServletTest {
   public void testDoPost_ExistingUserIncorrectUsername() throws IOException, ServletException {
     Mockito.when(mockRequest.getParameter("username")).thenReturn("test username");
     Mockito.when(mockRequest.getParameter("password")).thenReturn("test password");
+    Mockito.when(mockRequest.getParameter("login")).thenReturn("login");
 
     UserStore mockUserStore = Mockito.mock(UserStore.class);
     User mockUser = Mockito.mock(User.class);
@@ -123,4 +126,18 @@ public class LoginServletTest {
     Mockito.verify(mockRequest).setAttribute("error", "That username was not found.");
     Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/view/login.jsp");
   }
+  
+@Test
+  public void testDoPost_Logout() throws IOException, ServletException {
+    Mockito.when(mockRequest.getParameter("logout")).thenReturn("logout");
+
+    HttpSession mockSession = Mockito.mock(HttpSession.class);
+    Mockito.when(mockRequest.getSession()).thenReturn(mockSession);
+
+    loginServlet.doPost(mockRequest, mockResponse);
+
+	Mockito.verify(mockSession).setAttribute("user", null);
+    Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/view/login.jsp");
+  }
+  
 }
