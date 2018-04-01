@@ -29,6 +29,24 @@ String about = (String) request.getAttribute("aboutme");
     <link rel="stylesheet" href="/css/main.css" type="text/css">
   </head>
   <body>
-    <h1><%= about %></h1>
+    <nav>
+    <%@ include file = "header.jsp" %>
+    </nav>
+    <h1 style= "text-align: center;"><%= user.getName() %>'s Profile Page</h1>
+    <h2 style= "text-align: center;"> About User </h2>
+        <p style= "text-align: center;"> About this user </p>
+    <h3 style= "text-align: center;"> Edit your About Me (only you can see this) </h3>
+    <form action="/action_page.php" style= "text-align: center;">
+      <textarea name="message" style="width:400px; height:100px;">Edit here.</textarea>
+      <br>
+      <input type="submit">
+    </form>
+    <hr style= "text-align: center;">
+    <h2 style= "text-align: center;"><%= user.getName() %>'s Sent Messages</h2>
+    <form style= "text-align: center;">
+      <textarea name="message" style="width:400px; height:400px;">Past Convos Displayed here.</textarea>
+      <br>
+    </form>
+    <hr style= "text-align: center;">
   </body>
 </html>
