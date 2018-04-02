@@ -67,22 +67,28 @@ public class LoginServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    String username = request.getParameter("username");
-    String password = request.getParameter("password");
-      if (userStore.isUserRegistered(username)) {
-         User user = userStore.getUser(username);
-         if(BCrypt.checkpw(password, user.getPassword())) {
-           request.getSession().setAttribute("user", username);
-           response.sendRedirect("/conversations");
-     	}
-      	else {
-           request.setAttribute("error", "Invalid password.");
-           request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
-     }
-   }
-   else {
-     request.setAttribute("error", "That username was not found.");
-     request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
-   }
- }
+      	if(request.getParameter("login") != null){
+    		String username = request.getParameter("username");
+    		String password = request.getParameter("password");
+      		if (userStore.isUserRegistered(username)) {
+        		User user = userStore.getUser(username);
+         		if(BCrypt.checkpw(password, user.getPassword())) {
+           			request.getSession().setAttribute("user", username);
+           			response.sendRedirect("/conversations");
+     			}
+      			else {
+           			request.setAttribute("error", "Invalid password.");
+           			request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+     			}
+   			}
+   			else {
+     			request.setAttribute("error", "That username was not found.");
+     			request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+   			}
+ 		}
+ 		else if(request.getParameter("logout") != null){
+ 			request.getSession().setAttribute("user", null);
+ 			request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+ 		}
+ 	}
 }
