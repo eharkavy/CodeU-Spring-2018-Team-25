@@ -78,8 +78,6 @@ public class PersistentDataStore {
         throw new PersistentDataStoreException(e);
       }
     }
-
-	// Check if admin is in list. Add the admin if it isn't.
 	try {
 		boolean inlist = false;
 		for (int i = 0; i < users.size(); i++){
