@@ -87,7 +87,7 @@ public class PersistentDataStore {
 			}
 		}
 		if(!inlist){
-      User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.MIN, true);
+      User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.now(), false, "To be edited");
 			users.add(user);
 		}
 	} catch (Exception e){
