@@ -22,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /** Servlet class responsible for loading test data. */
 public class AdminServlet extends HttpServlet {
@@ -75,9 +76,20 @@ public class AdminServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    request.getSession().setAttribute("numUsers", userStore.getNumUsers());
-    request.getSession().setAttribute("numConversations", conversationStore.getNumConversations());
-    request.getSession().setAttribute("numMessages", messageStore.getNumMessages());
+    HttpSession session = request.getSession();
+    session.setAttribute("numUsers", userStore.getNumUsers());
+    session.setAttribute("numConversations", conversationStore.getNumConversations());
+    session.setAttribute("numMessages", messageStore.getNumMessages());
+    if(messageStore.getMostActive() != null){
+    	session.setAttribute("mostActive", messageStore.getMostActive());	
+	} else{
+		session.setAttribute("mostActive", "No Messages");
+	}
+	if(userStore.getNewest() != null){
+		session.setAttribute("newestUser", userStore.getNewest());
+	} else {
+		session.setAttribute("newestUser", "No Users");
+	}
     request.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(request, response);
   }
 

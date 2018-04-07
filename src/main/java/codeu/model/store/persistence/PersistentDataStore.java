@@ -78,8 +78,7 @@ public class PersistentDataStore {
         throw new PersistentDataStoreException(e);
       }
     }
-
-	// Check if admin is in list. Add the admin if it isn't.
+	// Check if admin is in list. Add the admin if it isn't. 
 	try {
 		boolean inlist = false;
 		for (int i = 0; i < users.size(); i++){
@@ -88,7 +87,7 @@ public class PersistentDataStore {
 			}
 		}
 		if(!inlist){
-			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.now(), false, "To be edited");
+      User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.MIN, true);
 			users.add(user);
 		}
 	} catch (Exception e){
