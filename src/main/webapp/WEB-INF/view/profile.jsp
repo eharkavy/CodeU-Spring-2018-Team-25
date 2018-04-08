@@ -20,6 +20,7 @@
 <%
 User user = (User) request.getAttribute("user");
 String about = (String) request.getAttribute("aboutme");
+String current_user = (String) request.getSession().getAttribute("user");
 %>
 
 <!DOCTYPE html>
@@ -35,12 +36,24 @@ String about = (String) request.getAttribute("aboutme");
     <h1 style= "text-align: center;"><%= user.getName() %>'s Profile Page</h1>
     <h2 style= "text-align: center;"> About User </h2>
         <p style= "text-align: center;"> About this user </p>
-    <h3 style= "text-align: center;"> Edit your About Me (only you can see this) </h3>
-    <form action="/action_page.php" style= "text-align: center;">
-      <textarea name="message" style="width:400px; height:100px;">Edit here.</textarea>
-      <br>
-      <input type="submit">
-    </form>
+    <%
+        if (current_user.equals(user.getName())) {
+    %>
+      <h3 style= "text-align: center;"> Edit your About Me (only you can see this) </h3>
+      <form action="/action_page.php" style= "text-align: center;">
+        <textarea name="message" style="width:400px; height:100px;">Edit here.</textarea>
+        <br>
+        <input type="submit">
+      </form>
+    <%
+        }
+        else {
+    %>
+        Unfortunately, you do not have the authorization to edit this.  Please login or switch ac
+    <%
+        }
+    %>
+
     <hr style= "text-align: center;">
     <h2 style= "text-align: center;"><%= user.getName() %>'s Sent Messages</h2>
     <form style= "text-align: center;">
