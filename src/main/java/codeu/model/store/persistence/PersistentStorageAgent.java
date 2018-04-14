@@ -19,6 +19,7 @@ import codeu.model.data.Message;
 import codeu.model.data.User;
 import codeu.model.store.persistence.PersistentDataStore;
 import java.util.List;
+import java.util.HashSet;
 
 /**
  * This class is the interface between the application and PersistentDataStore, which handles
@@ -60,12 +61,12 @@ public class PersistentStorageAgent {
   }
 
   /**
-   * Retrieve all User objects from the Datastore service. The returned list may be empty.
+   * Retrieve all names in HashSet from the Datastore service. The returned list may be empty.
    *
    * @throws PersistentDataStoreException if an error was detected during the load from the
    *     Datastore service
    */
-  public List<User> loadUsers() throws PersistentDataStoreException {
+  public HashSet<String> loadUsers() throws PersistentDataStoreException {
     return persistentDataStore.loadUsers();
   }
 
@@ -102,5 +103,14 @@ public class PersistentStorageAgent {
   /** Write a Conversation object to the Datastore service. */
   public void writeThrough(Message message) {
     persistentDataStore.writeThrough(message);
+  }
+  
+  /**
+   * Retrieve User object from Datastore service by the Username.
+   * 
+   * @return null if username not in Database
+   */
+  public User retrieveUserByUsername(String username) throws PersistentDataStoreException{
+   	return persistentDataStore.retrieveUserByUsername(username);
   }
 }
