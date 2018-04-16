@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -80,6 +81,31 @@ public class ProfileServlet extends HttpServlet {
   }
 
   /**
+   * This function fires when a user submits a bio on the profile page. It gets the logged-in
+   * username from the session and the new bio from the submitted form data. It updates the User model
+   and redirects to the profile page.
+   */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException {
+
+        String username = (String) request.getSession().getAttribute("user");
+        if (username == null) {
+          // user is not logged in, don't let them add a message
+          response.sendRedirect("/login");
+          return;
+        }
+
+        User user = userStore.getUser(username);
+        if (user == null) {
+          // user was not found, don't let them add a message
+          response.sendRedirect("/login");
+          return;
+        }
+
+}
+
+  /**
    * This function fires when a user navigates to the profile page. It gets the name of the user from
    * the URL, finds the corresponding User, and fetches the about me of the User, as well as the Messages they have sent.
    * It then forwards to profile.jsp for rendering.
@@ -104,9 +130,18 @@ public class ProfileServlet extends HttpServlet {
     UUID userId = user.getId();
 
     String about = user.getAbout();
+    List<Message> conversationsParticipated = new ArrayList<Message>();
+    for (Conversation conversation : conversationStore.getAllConversations()) {
+      for (Message message : messageStore.getMessagesInConversation(conversation.getId())) {
+        if (message.getAuthorId() == userId) {
+          conversationsParticipated.add(message);
+        }
+      }
+    }
 
     request.setAttribute("user", user);
     request.setAttribute("aboutme", about);
+    request.setAttribute("conversations", conversationsParticipated);
     request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
   }
 

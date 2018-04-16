@@ -21,6 +21,7 @@
 User user = (User) request.getAttribute("user");
 String about = (String) request.getAttribute("aboutme");
 String current_user = (String) request.getSession().getAttribute("user");
+List<Message> messages = (List<Message>) request.getAttribute("conversations");
 %>
 
 <!DOCTYPE html>
@@ -28,6 +29,15 @@ String current_user = (String) request.getSession().getAttribute("user");
   <head>
     <title><%= user.getName() %></title>
     <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <style>
+      #messages {
+        background-color: white;
+        text-align: center;
+        height: 500px;
+        width: 400px;
+        overflow-y: scroll
+      }
+      </style>
   </head>
   <body>
     <nav>
@@ -57,7 +67,16 @@ String current_user = (String) request.getSession().getAttribute("user");
     <hr style= "text-align: center;">
     <h2 style= "text-align: center;"><%= user.getName() %>'s Sent Messages</h2>
     <form style= "text-align: center;">
-      <textarea name="message" style="width:400px; height:400px;">Past Convos Displayed here.</textarea>
+      <div id="messages">
+        <%
+        for (Message message : messages) {
+          String date = message.getCreationTime().toString();
+      %>
+        <li><strong><%= date %></strong>:  <%= message.getContent() %></li>
+      <%
+        }
+      %>
+      </div>
       <br>
     </form>
     <hr style= "text-align: center;">
