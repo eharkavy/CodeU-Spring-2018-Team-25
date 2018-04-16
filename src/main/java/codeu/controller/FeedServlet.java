@@ -15,6 +15,7 @@
 package codeu.controller;
 
 import java.io.IOException;
+import codeu.model.store.basic.ActivityStore;
 import java.util.List;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -27,17 +28,27 @@ import javax.servlet.http.HttpSession;
 public class FeedServlet extends HttpServlet {
 
   /** Store class that gives access to Events and Dates. */
+  private ActivityStore activityStore;
 
   /** Set up state for handling the Activity Feed display */
   @Override
   public void init() throws ServletException {
     super.init();
-    
+    setActivityStore(ActivityStore.getInstance());
   }
   
-  //Private variables for testing
-  List<String> dates = new ArrayList<>();
-  List<String> events = new ArrayList<>();
+  /**
+   * Sets the ActivityStore used by this servlet. This function provides a common setup method
+   * for use by the test framework or the servlet's init() function.
+   */
+  void setActivityStore(ActivityStore activityStore) {
+    this.activityStore = activityStore;
+  }
+  
+  
+  //Private variables which hold dates and events to be given to .jsp
+  List<String> dates;
+  List<String> events;
     
   /**
    * This function fires when a user requests the /feed URL. It sets useful statistics to be displayed and then forwards the request to
@@ -47,14 +58,8 @@ public class FeedServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     HttpSession session = request.getSession();
-    if(dates.size() == 0){
-    	dates.add("Fri April 13 09:39:36 EST 2018: ");
-    	events.add("James joined!");
-	}
-	else if (dates.size() == 1){
-		dates.add("Sat April 14 09:39:36 EST 2018: ");
-		events.add("Elizabeth joined!");
-	}
+    dates = activityStore.getAllDates();
+    events = activityStore.getAllEvents();
     session.setAttribute("dates", dates);
     session.setAttribute("events", events);
     request.getRequestDispatcher("/WEB-INF/view/feed.jsp").forward(request, response);

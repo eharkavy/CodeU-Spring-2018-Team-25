@@ -15,6 +15,7 @@
 
 package codeu.controller;
 
+import codeu.model.store.basic.ActivityStore;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -38,6 +39,9 @@ public class FeedServletTest {
   private HttpSession mockSession;
   private HttpServletResponse mockResponse;
   private RequestDispatcher mockRequestDispatcher;
+  private ActivityStore mockActivityStore;
+  private List<String> dates;
+  private List<String> events;
 
   @Before
   public void setup() {
@@ -45,18 +49,26 @@ public class FeedServletTest {
 
     mockRequest = Mockito.mock(HttpServletRequest.class);
     mockSession = Mockito.mock(HttpSession.class);
+    mockActivityStore = Mockito.mock(ActivityStore.class);
     Mockito.when(mockRequest.getSession()).thenReturn(mockSession);
+    feedServlet.setActivityStore(mockActivityStore);
 
     mockResponse = Mockito.mock(HttpServletResponse.class);
     mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
     Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/feed.jsp"))
         .thenReturn(mockRequestDispatcher);
+    dates = new ArrayList<>();
+	events = new ArrayList<>();
+    Mockito.when(mockActivityStore.getAllDates()).thenReturn(dates);
+    Mockito.when(mockActivityStore.getAllEvents()).thenReturn(events);    
   }
 
   @Test
   public void testDoGet() throws IOException, ServletException {
     feedServlet.doGet(mockRequest, mockResponse);
 
+    Mockito.verify(mockSession).setAttribute("dates", dates);
+    Mockito.verify(mockSession).setAttribute("events", events);
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
 }
