@@ -30,6 +30,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import java.util.Arrays;
+import java.util.ArrayList;
+import com.github.rjeschke.txtmark.Processor;
+import com.github.rjeschke.txtmark.Configuration;
 
 /** Servlet class responsible for the chat page. */
 public class ChatServlet extends HttpServlet {
@@ -137,18 +141,24 @@ public class ChatServlet extends HttpServlet {
       response.sendRedirect("/conversations");
       return;
     }
-
+    //currently does not account for sentences
     String messageContent = request.getParameter("message");
-
-    // this removes any HTML from the message content
+    // this used to remove any HTML from the message content
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
+    //changed to markdown feature so it keeps approved HTML
+    String cleanedMssgWithMarkdown = Processor.process(cleanedMessageContent);
+    // String RegexPattern = "<ul>";  
+    // String output = Regex.Replace(cleanedMssgWithMarkdown, RegexPattern , "");
+
+    // String RegexPattern = "</ul>";  
+    // String output = Regex.Replace(cleanedMssgWithMarkdown, RegexPattern , "");
 
     Message message =
         new Message(
             UUID.randomUUID(),
             conversation.getId(),
             user.getId(),
-            cleanedMessageContent,
+            cleanedMssgWithMarkdown.substring(3, cleanedMssgWithMarkdown.length()-2),
             Instant.now());
 
     messageStore.addMessage(message);
