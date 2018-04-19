@@ -65,7 +65,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
           .getUser(message.getAuthorId()).getName();
     %>
       <!-- <li><strong><%= author %>:</strong> <%= message.getContent() %></li> -->
-      <li><strong><%= author %>:</strong><%= message.getContent()%></li>
+      <li><strong><%= author %>:</strong> <%= message.getContent()%></li>
     <%
       }
     %>

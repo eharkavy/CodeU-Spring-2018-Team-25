@@ -147,7 +147,10 @@ public class ChatServlet extends HttpServlet {
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
     //changed to markdown feature so it keeps approved HTML
     String cleanedMssgWithMarkdown = Processor.process(cleanedMessageContent);
-    // String RegexPattern = "<br />";  
+    // String RegexPattern = "<ul>";  
+    // String output = Regex.Replace(cleanedMssgWithMarkdown, RegexPattern , "");
+
+    // String RegexPattern = "</ul>";  
     // String output = Regex.Replace(cleanedMssgWithMarkdown, RegexPattern , "");
 
     Message message =
@@ -155,7 +158,7 @@ public class ChatServlet extends HttpServlet {
             UUID.randomUUID(),
             conversation.getId(),
             user.getId(),
-            cleanedMssgWithMarkdown,
+            cleanedMssgWithMarkdown.substring(3, cleanedMssgWithMarkdown.length()-2),
             Instant.now());
 
     messageStore.addMessage(message);
