@@ -34,5 +34,5 @@ public class ActivityStoreTest {
     Assert.assertEquals(activityStore.getNumDates(), 1);
     Assert.assertEquals(activityStore.getNumEvents(), 1);
   }
-
+  
 }

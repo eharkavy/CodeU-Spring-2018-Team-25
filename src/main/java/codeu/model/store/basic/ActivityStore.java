@@ -22,6 +22,7 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
 
 
 /**
@@ -33,6 +34,12 @@ public class ActivityStore {
   /** Singleton instance of ActivityStore. */
   private static ActivityStore instance;
 
+  /** Store class that gives access to Users. */
+  private UserStore userStore;
+  
+  /** Store class that gives access to Users. */
+  private ConversationStore conversationStore;  
+  
   /**
    * Returns the singleton instance of ActivityStore that should be shared between all servlet
    * classes. Do not call this function from a test; use getTestInstance() instead.
@@ -87,13 +94,26 @@ public class ActivityStore {
   }
   
   /** New Conversation. */
-  public void add(Conversation converation) {
-  	//TODO
+  public void add(Conversation conversation) {
+  	if(userStore == null)
+  	  userStore = UserStore.getInstance();
+  	if(conversation == null)
+  	  return;
+  	String owner = userStore.getUsername(conversation.getOwnerId());
+  	if(owner != null){
+  	  dates.add(convertInstant(conversation.getCreationTime()));
+  	  events.add(owner + " created a new conversation: " + conversation.getTitle());
+  	}
   }
   
   /** New Message. */
   public void add(Message message) {
-  	//TODO
+  	if(userStore == null)
+  	  userStore = UserStore.getInstance();
+  	if(conversationStore == null)
+  	  conversationStore = ConversationStore.getInstance();
+  	dates.add(convertInstant(message.getCreationTime()));
+  	events.add(userStore.getUsername(message.getAuthorId()) + " sent a message in " + conversationStore.getName(message.getConversationId()) + ": \"" + message.getContent() + "\"");
   }
   
   /** Returns the number of dates. **/

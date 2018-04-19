@@ -188,4 +188,16 @@ public class UserStore {
   public String getNewest(){
   	return newestUser;
   }
+  
+  /**
+   * Returns the username of user with given UUID.
+   * 
+   * @return null if no users with this UUID.
+   */
+  public String getUsername(UUID id){
+  	if(id != null && mapIdToUsername.containsKey(id)){
+  		return mapIdToUsername.get(id);
+  	}
+  	else return null;
+  }
 }
