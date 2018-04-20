@@ -66,10 +66,14 @@ public class MessageStore {
   /** The in-memory list of Messages. */
   private List<Message> messages;
 
+  /** ActivityStore is responsible for recording when new users are added. */
+  private ActivityStore activityStore;
+
   /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
   private MessageStore(PersistentStorageAgent persistentStorageAgent) {
     this.persistentStorageAgent = persistentStorageAgent;
     messages = new ArrayList<>();
+    activityStore = ActivityStore.getInstance();
   }
 
   /**
@@ -80,7 +84,10 @@ public class MessageStore {
   public boolean loadTestData() {
     boolean loaded = false;
     try {
-      messages.addAll(DefaultDataStore.getInstance().getAllMessages());
+      for(Message message : DefaultDataStore.getInstance().getAllMessages()) {
+      	messages.add(message);
+      	activityStore.add(message);
+      }
       loaded = true;
     } catch (Exception e) {
       loaded = false;
@@ -92,6 +99,7 @@ public class MessageStore {
   /** Add a new message to the current set of messages known to the application. */
   public void addMessage(Message message) {
     messages.add(message);
+    activityStore.add(message);
     persistentStorageAgent.writeThrough(message);
   }
 

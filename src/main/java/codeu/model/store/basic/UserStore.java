@@ -73,11 +73,15 @@ public class UserStore {
   /** Time of creation of newest User */
   private Instant newestUserCreationTime = Instant.MIN;
   
+  /** ActivityStore is responsible for recording when new users are added. */
+  private ActivityStore activityStore;
+  
   /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
   private UserStore(PersistentStorageAgent persistentStorageAgent) {
     this.persistentStorageAgent = persistentStorageAgent;
     users = new HashSet<String>();
     mapIdToUsername = new Hashtable<UUID, String>();
+    activityStore = ActivityStore.getInstance();
   }
 
   /** Load a set of randomly-generated Message objects. */
@@ -86,6 +90,7 @@ public class UserStore {
   	for(User user: temp){
   		mapIdToUsername.put(user.getId(), user.getName());
   		users.add(user.getName());
+  		activityStore.add(user);
   		// Update newestUser
   		if(user.getCreationTime().isAfter(newestUserCreationTime)){
   			newestUser = user.getName();
@@ -129,6 +134,7 @@ public class UserStore {
   	if(!users.contains(user.getName())){
   		persistentStorageAgent.writeThrough(user);
   	  	users.add(user.getName());
+  	  	activityStore.add(user);
 		mapIdToUsername.put(user.getId(), user.getName());
 		// Update newestUser
   		if(user.getCreationTime().isAfter(newestUserCreationTime)){
@@ -181,5 +187,17 @@ public class UserStore {
   */
   public String getNewest(){
   	return newestUser;
+  }
+  
+  /**
+   * Returns the username of user with given UUID.
+   * 
+   * @return null if no users with this UUID.
+   */
+  public String getUsername(UUID id){
+  	if(id != null && mapIdToUsername.containsKey(id)){
+  		return mapIdToUsername.get(id);
+  	}
+  	else return null;
   }
 }
