@@ -17,9 +17,13 @@ package codeu.model.store.basic;
 import codeu.model.data.User;
 import java.time.Instant;
 import codeu.model.store.persistence.PersistentStorageAgent;
+import codeu.model.store.persistence.PersistentDataStoreException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.UUID;
+
 
 /**
  * Store class that uses in-memory data structures to hold values and automatically loads from and
@@ -57,18 +61,42 @@ public class UserStore {
    */
   private PersistentStorageAgent persistentStorageAgent;
 
-  /** The in-memory list of Users. */
-  private List<User> users;
+  /** The in-memory HashSet of usernames. */
+  private HashSet<String> users;
+  
+  /** The in-memory HashTable from user IDs to usernames. */
+  private Hashtable<UUID, String> mapIdToUsername;
 
+  /** Newest user. */
+  private String newestUser = null;
+  
+  /** Time of creation of newest User */
+  private Instant newestUserCreationTime = Instant.MIN;
+  
+  /** ActivityStore is responsible for recording when new users are added. */
+  private ActivityStore activityStore;
+  
   /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
   private UserStore(PersistentStorageAgent persistentStorageAgent) {
     this.persistentStorageAgent = persistentStorageAgent;
-    users = new ArrayList<>();
+    users = new HashSet<String>();
+    mapIdToUsername = new Hashtable<UUID, String>();
+    activityStore = ActivityStore.getInstance();
   }
 
   /** Load a set of randomly-generated Message objects. */
   public void loadTestData() {
-    users.addAll(DefaultDataStore.getInstance().getAllUsers());
+  	List<User> temp = DefaultDataStore.getInstance().getAllUsers();
+  	for(User user: temp){
+  		mapIdToUsername.put(user.getId(), user.getName());
+  		users.add(user.getName());
+  		activityStore.add(user);
+  		// Update newestUser
+  		if(user.getCreationTime().isAfter(newestUserCreationTime)){
+  			newestUser = user.getName();
+  			newestUserCreationTime = user.getCreationTime();
+  		}
+  	}
   }
 
   /**
@@ -77,11 +105,14 @@ public class UserStore {
    * @return null if username does not match any existing User.
    */
   public User getUser(String username) {
-    // This approach will be pretty slow if we have many users.
-    for (User user : users) {
-      if (user.getName().equals(username)) {
-        return user;
-      }
+    if(users.contains(username)){
+    	try {
+			return persistentStorageAgent.retrieveUserByUsername(username);
+    	} catch (PersistentDataStoreException e) {
+		    System.err.println("Server didn't start correctly. An error occurred during Datastore load!");
+      		System.err.println("This is usually caused by loading data that's in an invalid format.");
+      		System.err.println("Check the stack trace to see exactly what went wrong.");
+    	}
     }
     return null;
   }
@@ -92,36 +123,55 @@ public class UserStore {
    * @return null if the UUID does not match any existing User.
    */
   public User getUser(UUID id) {
-    for (User user : users) {
-      if (user.getId().equals(id)) {
-        return user;
-      }
+    if(mapIdToUsername.containsKey(id)){
+    	return getUser(mapIdToUsername.get(id));
     }
     return null;
   }
 
   /** Add a new user to the current set of users known to the application. */
   public void addUser(User user) {
-    users.add(user);
-    persistentStorageAgent.writeThrough(user);
+  	if(!users.contains(user.getName())){
+  		persistentStorageAgent.writeThrough(user);
+  	  	users.add(user.getName());
+  	  	activityStore.add(user);
+		mapIdToUsername.put(user.getId(), user.getName());
+		// Update newestUser
+  		if(user.getCreationTime().isAfter(newestUserCreationTime)){
+  			newestUser = user.getName();
+  			newestUserCreationTime = user.getCreationTime();
+  		}
+  	}
   }
 
   /** Return true if the given username is known to the application. */
   public boolean isUserRegistered(String username) {
-    for (User user : users) {
-      if (user.getName().equals(username)) {
-        return true;
-      }
-    }
-    return false;
+    return users.contains(username);
   }
 
   /**
-   * Sets the List of Users stored by this UserStore. This should only be called once, when the data
+   * Sets the HashSet of usernames stored by this UserStore. This should only be called once, when the data
    * is loaded from Datastore.
    */
-  public void setUsers(List<User> users) {
+  public void setUsers(HashSet<String> users) {
     this.users = users;
+    instantiateHashTable();
+  }
+  
+  /**
+   * Uses Hashset of usernames and getUser to instantiate HashTable of UUID to username.
+   * 
+   */
+  public void instantiateHashTable(){
+  	for(String username: users){
+  		User user = getUser(username);
+  		mapIdToUsername.put(user.getId(), username);
+		// Update newestUser
+  		if(user.getCreationTime().isAfter(newestUserCreationTime)){
+  			newestUser = user.getName();
+  			newestUserCreationTime = user.getCreationTime();
+  		}
+  	}
   }
   
   /**
@@ -136,22 +186,18 @@ public class UserStore {
   * @return null if no users or if admin is the only user
   */
   public String getNewest(){
-  	if(users.size() == 0){
-  		return null;
+  	return newestUser;
+  }
+  
+  /**
+   * Returns the username of user with given UUID.
+   * 
+   * @return null if no users with this UUID.
+   */
+  public String getUsername(UUID id){
+  	if(id != null && mapIdToUsername.containsKey(id)){
+  		return mapIdToUsername.get(id);
   	}
-  	Instant newestSoFar = users.get(0).getCreationTime();
-  	User newestUserSoFar = users.get(0);
-  	for(User user : users){
-  		if(user.getCreationTime().isAfter(newestSoFar)){
-  			newestUserSoFar = user;
-  			newestSoFar = user.getCreationTime();
-  		}
-  	}
-  	if(newestUserSoFar.getName().equals("admin")){
-  		return null;
-  	}
-  	else{
-  		return newestUserSoFar.getName();
-  	}
+  	else return null;
   }
 }

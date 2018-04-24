@@ -18,6 +18,7 @@ import codeu.model.data.Conversation;
 import codeu.model.store.persistence.PersistentStorageAgent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Store class that uses in-memory data structures to hold values and automatically loads from and
@@ -58,10 +59,14 @@ public class ConversationStore {
   /** The in-memory list of Conversations. */
   private List<Conversation> conversations;
 
+  /** ActivityStore is responsible for recording when new users are added. */
+  private ActivityStore activityStore;
+  
   /** This class is a singleton, so its constructor is private. Call getInstance() instead. */
   private ConversationStore(PersistentStorageAgent persistentStorageAgent) {
     this.persistentStorageAgent = persistentStorageAgent;
     conversations = new ArrayList<>();
+    activityStore = ActivityStore.getInstance();
   }
 
   /**
@@ -72,7 +77,10 @@ public class ConversationStore {
   public boolean loadTestData() {
     boolean loaded = false;
     try {
-      conversations.addAll(DefaultDataStore.getInstance().getAllConversations());
+      for(Conversation conversation : DefaultDataStore.getInstance().getAllConversations()){
+      	conversations.add(conversation);
+      	activityStore.add(conversation);
+      }
       loaded = true;
     } catch (Exception e) {
       loaded = false;
@@ -89,6 +97,7 @@ public class ConversationStore {
   /** Add a new conversation to the current set of conversations known to the application. */
   public void addConversation(Conversation conversation) {
     conversations.add(conversation);
+    activityStore.add(conversation);
     persistentStorageAgent.writeThrough(conversation);
   }
 
@@ -111,6 +120,16 @@ public class ConversationStore {
       }
     }
     return null;
+  }
+  
+  /** Find and return the name of a Conversation with a given UUID.  */
+  public String getName(UUID id) {
+  	for (Conversation conversation : conversations) {
+  		if(conversation.getId().equals(id)){
+  			return conversation.getTitle();
+  		}
+  	}
+  	return null;
   }
 
   /** Sets the List of Conversations stored by this ConversationStore. */
