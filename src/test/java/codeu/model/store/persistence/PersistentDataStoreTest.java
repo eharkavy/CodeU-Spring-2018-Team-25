@@ -7,7 +7,6 @@ import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestC
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import java.time.Instant;
 import java.util.List;
-import java.util.HashSet;
 import java.util.UUID;
 import org.junit.After;
 import org.junit.Assert;
@@ -59,25 +58,27 @@ public class PersistentDataStoreTest {
     persistentDataStore.writeThrough(inputUserTwo);
 
     // load
-    HashSet<String> resultUsers = persistentDataStore.loadUsers();
+    List<User> resultUsers = persistentDataStore.loadUsers();
 
     // confirm that what we saved matches what we loaded
-    Assert.assertEquals(true, resultUsers.contains("admin"));
-    Assert.assertEquals(true, resultUsers.contains("test_username_one"));
-    Assert.assertEquals(true, resultUsers.contains("test_username_two"));
-    User resultUserOne = persistentDataStore.retrieveUserByUsername("test_username_one");
+    User resultUserOne = resultUsers.get(0);
     Assert.assertEquals(idOne, resultUserOne.getId());
     Assert.assertEquals(nameOne, resultUserOne.getName());
     Assert.assertEquals(passwordOne, resultUserOne.getPassword());
     Assert.assertEquals(creationOne, resultUserOne.getCreationTime());
     Assert.assertEquals(adminOne, resultUserOne.getAdmin());
 
-    User resultUserTwo = persistentDataStore.retrieveUserByUsername("test_username_two");
+    User resultUserTwo = resultUsers.get(1);
     Assert.assertEquals(idTwo, resultUserTwo.getId());
     Assert.assertEquals(nameTwo, resultUserTwo.getName());
     Assert.assertEquals(passwordTwo, resultUserTwo.getPassword());
     Assert.assertEquals(creationTwo, resultUserTwo.getCreationTime());
     Assert.assertEquals(adminTwo, resultUserTwo.getAdmin());
+    
+    User resultAdmin = resultUsers.get(2);
+    Assert.assertEquals("admin", resultAdmin.getName());
+    Assert.assertEquals(Instant.MIN, resultAdmin.getCreationTime());
+    Assert.assertEquals(true, resultAdmin.getAdmin());
   }
 
   @Test
