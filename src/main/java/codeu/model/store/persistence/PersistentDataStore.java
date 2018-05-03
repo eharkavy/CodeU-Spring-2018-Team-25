@@ -75,7 +75,7 @@ public class PersistentDataStore {
     }
 	try {
 		if(!users.contains("admin")){
-			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.MIN, true);
+			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.MIN, true, "to be edited");
 			writeThrough(user);
 		}
 		users.add("admin");
@@ -206,7 +206,7 @@ public class PersistentDataStore {
         String password = (String) entity.getProperty("password");
         Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
         boolean admin = Boolean.parseBoolean((String) entity.getProperty("admin"));
-        user = new User(uuid, userName, password, creationTime, admin);
+        user = new User(uuid, userName, password, creationTime, admin, "to be edited");
         } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
         // occur include network errors, Datastore service errors, authorization errors,

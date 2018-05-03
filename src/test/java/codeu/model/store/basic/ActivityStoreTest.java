@@ -17,7 +17,7 @@ public class ActivityStoreTest {
 
   private ActivityStore activityStore;
   private final User USER_ONE =
-      new User(UUID.randomUUID(), "test_username_one", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(1000), false);
+      new User(UUID.randomUUID(), "test_username_one", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(1000), false, "to be edited");
 
   @Before
   public void setup() {
@@ -28,11 +28,11 @@ public class ActivityStoreTest {
   @Test
   public void addNewUser() {
     activityStore.add(USER_ONE);
-    
+
     Assert.assertEquals(activityStore.getAllDates().get(0), "Wed, 31 Dec 1969 19:00:01 EST: ");
     Assert.assertEquals(activityStore.getAllEvents().get(0), "test_username_one joined!");
     Assert.assertEquals(activityStore.getNumDates(), 1);
     Assert.assertEquals(activityStore.getNumEvents(), 1);
   }
-  
+
 }
