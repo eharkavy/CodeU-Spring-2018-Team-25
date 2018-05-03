@@ -61,12 +61,12 @@ public class PersistentStorageAgent {
   }
 
   /**
-   * Retrieve all names in HashSet from the Datastore service. The returned list may be empty.
+   * Retrieve all names in List from the Datastore service. The returned list may be empty.
    *
    * @throws PersistentDataStoreException if an error was detected during the load from the
    *     Datastore service
    */
-  public HashSet<String> loadUsers() throws PersistentDataStoreException {
+  public List<User> loadUsers() throws PersistentDataStoreException {
     return persistentDataStore.loadUsers();
   }
 
@@ -105,12 +105,4 @@ public class PersistentStorageAgent {
     persistentDataStore.writeThrough(message);
   }
   
-  /**
-   * Retrieve User object from Datastore service by the Username.
-   * 
-   * @return null if username not in Database
-   */
-  public User retrieveUserByUsername(String username) throws PersistentDataStoreException{
-   	return persistentDataStore.retrieveUserByUsername(username);
-  }
 }

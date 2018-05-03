@@ -94,7 +94,7 @@ public class DefaultDataStore {
   }
 
   private void addRandomUsers() {
-
+  	
     List<String> randomUsernames = getRandomUsernames();
     Collections.shuffle(randomUsernames);
 
