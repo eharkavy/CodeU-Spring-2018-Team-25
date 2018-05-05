@@ -109,5 +109,46 @@ public class ProfileServlet extends HttpServlet {
     request.setAttribute("aboutme", about);
     request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
   }
+  
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException {
+      
+	String requestUrl = request.getRequestURI();
+    String username = (String) request.getSession().getAttribute("user");
+    String aboutme = (String) request.getSession().getAttribute("aboutme");
+    
+    if (username == null) {
+      // user is not logged in, don't let them add a
+      response.sendRedirect("/login");
+      return;
+    }
+
+    User user = userStore.getUser(username);
+    if (user == null) {
+      // user was not found, don't let them add a message
+      response.sendRedirect("/login");
+      return;
+    }
+
+	String profilePage = requestUrl.substring("/profile/".length());
+	
+	
+	
+	
+
+    String aboutContent = request.getParameter("aboutme");
+
+    // this removes any HTML from the message content
+    String cleanedAboutContent = Jsoup.clean(aboutContent, Whitelist.none());
+    
+    user.setAbout(cleanedAboutContent);
+
+
+
+    // redirect to a GET request
+    response.sendRedirect("/profile/" + username);
+  }
+
 
 }

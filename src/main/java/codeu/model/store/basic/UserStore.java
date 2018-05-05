@@ -131,6 +131,7 @@ public class UserStore {
   	return users.size();
   }
   
+  
   /** Access the username of the newest User 
   * 
   * @return null if no users or if admin is the only user

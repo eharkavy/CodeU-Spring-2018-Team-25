@@ -35,16 +35,18 @@ String current_user = (String) request.getSession().getAttribute("user");
     </nav>
     <h1 style= "text-align: center;"><%= user.getName() %>'s Profile Page</h1>
     <h2 style= "text-align: center;"> About User </h2>
-        <p style= "text-align: center;"> About this user </p>
+        <p style= "text-align: center;"> <%= user.getAbout() %></p>
     <%
         if (current_user.equals(user.getName())) {
     %>
       <h3 style= "text-align: center;"> Edit your About Me (only you can see this) </h3>
-      <form action="/action_page.php" style= "text-align: center;">
-        <textarea name="message" style="width:400px; height:100px;">Edit here.</textarea>
-        <br>
-        <input type="submit">
+      
+      <form action="/profile/<%= user.getName() %>" method="POST">
+        <input type="text" name="aboutme">
+        <br/>
+        <button type="submit">Edit</button>
       </form>
+
     <%
         }
         else {
@@ -63,3 +65,4 @@ String current_user = (String) request.getSession().getAttribute("user");
     <hr style= "text-align: center;">
   </body>
 </html>
+

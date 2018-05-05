@@ -25,7 +25,7 @@ public class User {
   private final String hashedpassword;
   private final Instant creation;
   private final boolean admin;
-  private final String about;
+  private String about;
 
   /**shed
    * Constructs a new User.
@@ -60,6 +60,14 @@ public class User {
   public String getName() {
     return name;
   }
+  
+  /**Updates the about of this User. */
+  
+  public void setAbout(String about){
+  	this.about = about;
+  }
+  
+	
 
   /** Returns the password of this User */
  public String getPassword() {
