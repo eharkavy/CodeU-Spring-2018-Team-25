@@ -69,7 +69,7 @@ public class PersistentDataStore {
         	String password = (String) entity.getProperty("password");
         	Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
         	boolean admin = Boolean.parseBoolean((String) entity.getProperty("admin"));
-        	User user = new User(uuid, userName, password, creationTime, admin);
+        	User user = new User(uuid, userName, password, creationTime, admin, "to be edited");
         	if(user.getName().equals("admin")){
         		adminExists = true;
         	}
@@ -81,11 +81,9 @@ public class PersistentDataStore {
         throw new PersistentDataStoreException(e);
       }
     }
-	
-	// Check if admin is in list. Add the admin if it isn't. 
 	try {
 		if(adminExists == false){
-			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.MIN, true);
+			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.MIN, true, "to be edited");
 			writeThrough(user);
 			users.add(user);
 		}
@@ -172,6 +170,7 @@ public class PersistentDataStore {
     userEntity.setProperty("uuid", user.getId().toString());
     userEntity.setProperty("username", user.getName());
     userEntity.setProperty("password", user.getPassword());
+    userEntity.setProperty("about", String.valueOf(user.getAbout()));
     userEntity.setProperty("creation_time", user.getCreationTime().toString());
     userEntity.setProperty("admin", String.valueOf(user.getAdmin()));
   	datastore.put(userEntity);

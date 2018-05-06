@@ -29,8 +29,9 @@ public class UserTest {
     Instant creation = Instant.now();
     String passwordHash = BCrypt.hashpw("password", BCrypt.gensalt());
     boolean admin = false;
+    String about = "To be edited";
 
-    User user = new User(id, name, passwordHash, creation, admin);
+    User user = new User(id, name, passwordHash, creation, admin, about);
 
     Assert.assertEquals(id, user.getId());
     Assert.assertEquals(name, user.getName());

@@ -20,11 +20,11 @@ public class UserStoreTest {
   private PersistentStorageAgent mockPersistentStorageAgent;
 
   private final User USER_ONE =
-      new User(UUID.randomUUID(), "test_username_one", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(1000), false);
+      new User(UUID.randomUUID(), "test_username_one", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(1000), false, "To be edited");
   private final User USER_TWO =
-      new User(UUID.randomUUID(), "test_username_two", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(2000), false);
+      new User(UUID.randomUUID(), "test_username_two", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(2000), false, "To be edited");
   private final User USER_THREE =
-      new User(UUID.randomUUID(), "test_username_three", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(3000), false);
+      new User(UUID.randomUUID(), "test_username_three", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(3000), false, "To be edited");
 
   @Before
   public void setup() {
@@ -67,7 +67,8 @@ public class UserStoreTest {
 
   @Test
   public void testAddUser() {
-    User inputUser = new User(UUID.randomUUID(), "test_username", "password four", Instant.now(), false);
+    User inputUser = new User(UUID.randomUUID(), "test_username", "password four", Instant.now(), false, "To be edited");
+
     userStore.addUser(inputUser);
     
     User resultUser = userStore.getUser("test_username");
