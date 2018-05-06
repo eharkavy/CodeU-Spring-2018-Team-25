@@ -37,7 +37,7 @@ String current_user = (String) request.getSession().getAttribute("user");
     <h2 style= "text-align: center;"> About User </h2>
         <p style= "text-align: center;"> <%= user.getAbout() %></p>
     <%
-        if (current_user.equals(user.getName())) {
+        if (current_user != null && current_user.equals(user.getName())) {
     %>
       <h3 style= "text-align: center;"> Edit your About Me (only you can see this) </h3>
       
