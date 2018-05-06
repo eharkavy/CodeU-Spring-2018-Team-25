@@ -14,18 +14,16 @@
   limitations under the License.
 --%>
 <%@ page import="java.util.List" %>
-<%@ page import="codeu.model.data.Conversation" %>
-<%@ page import="codeu.model.data.Message" %>
-<%@ page import="codeu.model.store.basic.UserStore" %>
+
 <%
-Conversation conversation = (Conversation) request.getAttribute("conversation");
-List<Message> messages = (List<Message>) request.getAttribute("messages");
+List<String> dates = (List<String>) request.getSession().getAttribute("dates");
+List<String> events = (List<String>) request.getSession().getAttribute("events");
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= conversation.getTitle() %></title>
+  <title>Activity</title>
   <link rel="stylesheet" href="/css/main.css" type="text/css">
 
   <style>
@@ -38,13 +36,13 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
   <script>
     // scroll the chat div to the bottom
-    function scrollChat() {
-      var chatDiv = document.getElementById('chat');
-      chatDiv.scrollTop = chatDiv.scrollHeight;
+    function scrollFeed() {
+      var feedDiv = document.getElementById('feed');
+      feedDiv.scrollTop = feedDiv.scrollHeight;
     };
   </script>
 </head>
-<body onload="scrollChat()">
+<body onload="scrollFeed()">
 
   <nav>
     <%@ include file = "header.jsp" %>
@@ -52,36 +50,35 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
   <div id="container">
 
-    <h1><%= conversation.getTitle() %>
+    <h1>Activity
       <a href="" style="float: right">&#8635;</a></h1>
+    <p>Here's everything that's happened on the site so far!</p>
 
     <hr/>
 
     <div id="chat">
       <ul>
     <%
-      for (Message message : messages) {
-        String author = UserStore.getInstance()
-          .getUser(message.getAuthorId()).getName();
+      if(dates != null)
+      	for (int i = dates.size()-1; i >= 0; i--) {
     %>
-      <li><strong><a href="/profile/<%= author %>"><%= author %>:</a></strong> <%= message.getContent() %></li>
+      	<li><strong><%= dates.get(i) %></strong> <%= events.get(i) %></li>
     <%
-      }
+      	}
     %>
+    <%
+      if (dates == null || dates.size() == 0){
+    %>
+     <li><strong>Ahh. Nothing has happened yet:(</strong></li>
       </ul>
+     <%
+  		}
+  	 %>
+
+      
     </div>
 
     <hr/>
-
-    <% if (request.getSession().getAttribute("user") != null) { %>
-    <form action="/chat/<%= conversation.getTitle() %>" method="POST">
-        <input type="text" name="message">
-        <br/>
-        <button type="submit">Send</button>
-    </form>
-    <% } else { %>
-      <p><a href="/login">Login</a> to send a message.</p>
-    <% } %>
 
     <hr/>
 

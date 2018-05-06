@@ -20,33 +20,22 @@ public class UserStoreTest {
   private PersistentStorageAgent mockPersistentStorageAgent;
 
   private final User USER_ONE =
-      new User(UUID.randomUUID(), "test_username_one", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(1000), false);
+      new User(UUID.randomUUID(), "test_username_one", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(1000), false, "To be edited");
   private final User USER_TWO =
-      new User(UUID.randomUUID(), "test_username_two", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(2000), false);
+      new User(UUID.randomUUID(), "test_username_two", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(2000), false, "To be edited");
   private final User USER_THREE =
-      new User(UUID.randomUUID(), "test_username_three", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(3000), false);
+      new User(UUID.randomUUID(), "test_username_three", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(3000), false, "To be edited");
 
   @Before
   public void setup() {
     mockPersistentStorageAgent = Mockito.mock(PersistentStorageAgent.class);
     userStore = UserStore.getTestInstance(mockPersistentStorageAgent);
-    try {
-		Mockito.when(mockPersistentStorageAgent.retrieveUserByUsername("test_username_one")).thenReturn(USER_ONE);
-		Mockito.when(mockPersistentStorageAgent.retrieveUserByUsername("test_username_two")).thenReturn(USER_TWO);
-		Mockito.when(mockPersistentStorageAgent.retrieveUserByUsername("test_username_three")).thenReturn(USER_THREE);
-    } catch (PersistentDataStoreException e) {
-	    System.err.println("Server didn't start correctly. An error occurred during Datastore load!");
-    	System.err.println("This is usually caused by loading data that's in an invalid format.");
-    	System.err.println("Check the stack trace to see exactly what went wrong.");
-    }
-	userStore.addUser(USER_ONE);
-	userStore.addUser(USER_TWO);
-	userStore.addUser(USER_THREE);
-	
-    final HashSet<String> userList = new HashSet<String>();
-    userList.add(USER_ONE.getName());
-    userList.add(USER_TWO.getName());
-    userList.add(USER_THREE.getName());
+    
+    final List<User> userList = new ArrayList<>();
+	userList.add(USER_ONE);
+	userList.add(USER_TWO);
+	userList.add(USER_THREE);
+    
     userStore.setUsers(userList);
   }
 
@@ -78,19 +67,13 @@ public class UserStoreTest {
 
   @Test
   public void testAddUser() {
-    User inputUser = new User(UUID.randomUUID(), "test_username", "password four", Instant.now(), false);
+    User inputUser = new User(UUID.randomUUID(), "test_username", "password four", Instant.now(), false, "To be edited");
 
     userStore.addUser(inputUser);
-    try {
-	    Mockito.when(mockPersistentStorageAgent.retrieveUserByUsername("test_username")).thenReturn(inputUser);
-    } catch (PersistentDataStoreException e) {
-	    System.err.println("Server didn't start correctly. An error occurred during Datastore load!");
-    	System.err.println("This is usually caused by loading data that's in an invalid format.");
-    	System.err.println("Check the stack trace to see exactly what went wrong.");
-    }
-    User resultUser = userStore.getUser("test_username");
     
+    User resultUser = userStore.getUser("test_username");
     assertEquals(inputUser, resultUser);
+    
     Mockito.verify(mockPersistentStorageAgent).writeThrough(inputUser);
   }
 

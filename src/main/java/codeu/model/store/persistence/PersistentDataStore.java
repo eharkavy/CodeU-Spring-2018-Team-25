@@ -27,8 +27,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.Hashtable;
-import java.util.HashSet;
 import org.mindrot.jbcrypt.*;
 
 /**
@@ -50,22 +48,32 @@ public class PersistentDataStore {
   }
 
   /**
-   * Loads all User objects from the Datastore service and returns them in a Hashtable from username to User object.
+   * Loads all User objects from the Datastore service and returns them in a List.
    *
    * @throws PersistentDataStoreException if an error was detected during the load from the
    *     Datastore service
    */
-  public HashSet<String> loadUsers() throws PersistentDataStoreException {
+  public List<User> loadUsers() throws PersistentDataStoreException {
 
-    HashSet<String> users = new HashSet<String>();
+    List<User> users = new ArrayList<>();
 
     // Retrieve all users from the datastore.
     Query query = new Query("chat-users");
     PreparedQuery results = datastore.prepare(query);
+    boolean adminExists = false;
 
     for (Entity entity : results.asIterable()) {
       try {
-      	users.add((String) entity.getProperty("username"));
+      		UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
+        	String userName = (String) entity.getProperty("username");
+        	String password = (String) entity.getProperty("password");
+        	Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
+        	boolean admin = Boolean.parseBoolean((String) entity.getProperty("admin"));
+        	User user = new User(uuid, userName, password, creationTime, admin, "to be edited");
+        	if(user.getName().equals("admin")){
+        		adminExists = true;
+        	}
+      		users.add(user);
       } catch (Exception e) {
         // In a production environment, errors should be very rare. Errors which may
         // occur include network errors, Datastore service errors, authorization errors,
@@ -73,14 +81,12 @@ public class PersistentDataStore {
         throw new PersistentDataStoreException(e);
       }
     }
-	
-	// Check if admin is in list. Add the admin if it isn't. 
 	try {
-		if(!users.contains("admin")){
-			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.MIN, true);
+		if(adminExists == false){
+			User user = new User(UUID.randomUUID(), "admin", BCrypt.hashpw("googlypants", BCrypt.gensalt()), Instant.MIN, true, "to be edited");
 			writeThrough(user);
+			users.add(user);
 		}
-		users.add("admin");
 	} catch (Exception e){
         // In a production environment, errors should be very rare. Errors which may
         // occur include network errors, Datastore service errors, authorization errors,
@@ -159,16 +165,15 @@ public class PersistentDataStore {
 
   /** Write a User object to the Datastore service. Write a list of usernames.*/
   public void writeThrough(User user) {
-  	Entity userEntity1 = new Entity("chat-users");
-  	userEntity1.setProperty("username", user.getName());
-  	datastore.put(userEntity1);
-    Entity userEntity2 = new Entity(user.getName());
-    userEntity2.setProperty("uuid", user.getId().toString());
-    userEntity2.setProperty("username", user.getName());
-    userEntity2.setProperty("password", user.getPassword());
-    userEntity2.setProperty("creation_time", user.getCreationTime().toString());
-    userEntity2.setProperty("admin", String.valueOf(user.getAdmin()));
-    datastore.put(userEntity2);
+  	Entity userEntity = new Entity("chat-users");
+  	userEntity.setProperty("username", user.getName());
+    userEntity.setProperty("uuid", user.getId().toString());
+    userEntity.setProperty("username", user.getName());
+    userEntity.setProperty("password", user.getPassword());
+    userEntity.setProperty("about", String.valueOf(user.getAbout()));
+    userEntity.setProperty("creation_time", user.getCreationTime().toString());
+    userEntity.setProperty("admin", String.valueOf(user.getAdmin()));
+  	datastore.put(userEntity);
   }
 
   /** Write a Message object to the Datastore service. */
@@ -192,30 +197,4 @@ public class PersistentDataStore {
     datastore.put(conversationEntity);
   }
   
-  /**
-   * Retrieve User object from Datastore service by the Username.
-   * 
-   * @return null if username not in Database
-  **/
-  public User retrieveUserByUsername(String username) throws PersistentDataStoreException{
-  	Query query = new Query(username);
-    PreparedQuery results = datastore.prepare(query);
-	User user = null;
-    for (Entity entity : results.asIterable()) {
-      try {
-        UUID uuid = UUID.fromString((String) entity.getProperty("uuid"));
-        String userName = (String) entity.getProperty("username");
-        String password = (String) entity.getProperty("password");
-        Instant creationTime = Instant.parse((String) entity.getProperty("creation_time"));
-        boolean admin = Boolean.parseBoolean((String) entity.getProperty("admin"));
-        user = new User(uuid, userName, password, creationTime, admin);
-        } catch (Exception e) {
-        // In a production environment, errors should be very rare. Errors which may
-        // occur include network errors, Datastore service errors, authorization errors,
-        // database entity definition mismatches, or service mismatches.
-        throw new PersistentDataStoreException(e);
-      }
-    }
-    return user;
-  }
 }

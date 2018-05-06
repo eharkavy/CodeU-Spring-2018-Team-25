@@ -94,12 +94,12 @@ public class DefaultDataStore {
   }
 
   private void addRandomUsers() {
-
+  	
     List<String> randomUsernames = getRandomUsernames();
     Collections.shuffle(randomUsernames);
 
     for (int i = 0; i < DEFAULT_USER_COUNT; i++) {
-      User user = new User(UUID.randomUUID(), randomUsernames.get(i), BCrypt.hashpw("password", BCrypt.gensalt()), Instant.now(), false);
+      User user = new User(UUID.randomUUID(), randomUsernames.get(i), BCrypt.hashpw("password", BCrypt.gensalt()), Instant.now(), false, "To be edited");
       PersistentStorageAgent.getInstance().writeThrough(user);
       users.add(user);
     }
