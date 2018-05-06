@@ -17,7 +17,11 @@ public class ActivityStoreTest {
 
   private ActivityStore activityStore;
   private final User USER_ONE =
+<<<<<<< HEAD
       new User(UUID.randomUUID(), "test_username_one", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(1000), false);
+=======
+      new User(UUID.randomUUID(), "test_username_one", BCrypt.hashpw("password", BCrypt.gensalt()), Instant.ofEpochMilli(1000), false, "to be edited");
+>>>>>>> f2290f42c9b8296c0234754605d57655f110401b
 
   @Before
   public void setup() {
