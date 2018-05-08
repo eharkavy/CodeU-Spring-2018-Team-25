@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
-    request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+    request.getRequestDispatcher("/login.jsp").forward(request, response);
   }
 
  /**
@@ -78,17 +78,17 @@ public class LoginServlet extends HttpServlet {
      			}
       			else {
            			request.setAttribute("error", "Invalid password.");
-           			request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+           			request.getRequestDispatcher("/login.jsp").forward(request, response);
      			}
    			}
    			else {
      			request.setAttribute("error", "That username was not found.");
-     			request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+     			request.getRequestDispatcher("/login.jsp").forward(request, response);
    			}
  		}
  		else if(request.getParameter("logout") != null){
  			request.getSession().setAttribute("user", null);
- 			request.getRequestDispatcher("/WEB-INF/view/login.jsp").forward(request, response);
+ 			request.getRequestDispatcher("/login.jsp").forward(request, response);
  		}
  	}
 }

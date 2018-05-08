@@ -42,7 +42,7 @@ public class LoginServletTest {
     mockRequest = Mockito.mock(HttpServletRequest.class);
     mockResponse = Mockito.mock(HttpServletResponse.class);
     mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
-    Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/login.jsp"))
+    Mockito.when(mockRequest.getRequestDispatcher("/login.jsp"))
         .thenReturn(mockRequestDispatcher);
   }
 
@@ -100,7 +100,7 @@ public class LoginServletTest {
     Mockito.verify(mockUserStore, Mockito.never()).addUser(Mockito.any(User.class));
 
     Mockito.verify(mockRequest).setAttribute("error", "Invalid password.");
-    Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/view/login.jsp");
+    Mockito.verify(mockRequest).getRequestDispatcher("/login.jsp");
   }
 
 @Test
@@ -124,7 +124,7 @@ public class LoginServletTest {
     Mockito.verify(mockUserStore, Mockito.never()).addUser(Mockito.any(User.class));
 
     Mockito.verify(mockRequest).setAttribute("error", "That username was not found.");
-    Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/view/login.jsp");
+    Mockito.verify(mockRequest).getRequestDispatcher("/login.jsp");
   }
   
 @Test
@@ -137,7 +137,7 @@ public class LoginServletTest {
     loginServlet.doPost(mockRequest, mockResponse);
 
 	Mockito.verify(mockSession).setAttribute("user", null);
-    Mockito.verify(mockRequest).getRequestDispatcher("/WEB-INF/view/login.jsp");
+    Mockito.verify(mockRequest).getRequestDispatcher("/login.jsp");
   }
   
 }
