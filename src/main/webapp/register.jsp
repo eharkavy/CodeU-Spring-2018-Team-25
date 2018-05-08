@@ -27,11 +27,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Login</h1>
+            <h1 class="m-0 text-dark">Register</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Login</a></li>
+              <li class="breadcrumb-item"><a href="#">Register</a></li>
               <li class="breadcrumb-item active">CodeU Chat App</li>
             </ol>
           </div><!-- /.col -->
@@ -42,34 +42,25 @@
        <div class="content">
           <div class="container-fluid">
             <div class="card border-dark mb-3 w-75">
-                    <div class="card-body">
+                <div class="card-body">
                     <% if(request.getAttribute("error") != null){ %>
-                    <h2 style="color:red"><%= request.getAttribute("error") %></h2>
-                    <% } %>
-                    <% if(request.getSession().getAttribute("user") == null) {%>
-                    <form action="/login" method="POST">
-                    <label for="username">Username: </label>
-                    <input type="text" name="username" id="username">
-                    <br/>
-                    <label for="password">Password: </label>
-                    <input type="password" name="password" id="password">
-                    <br/><br/>
-                    <li class="nav-item d-none d-sm-inline-block">
-                      <a href="/register" class="nav-link">New User?</a>
-                    </li>
-                    <button type="submit" value="login" name="login">Login</button>
-                    </form>
-                    <% } else {%>
-                    <form action="/login" method="POST">
-                    <li class="nav-item d-none d-sm-inline-block">
-                      <a href="/register" class="nav-link">New User?</a>
-                    </li>
-                    <button type="submit" value="logout" name="logout">Logout</button>
-                    </form>
-                    <% } %>
+                      <h2 style="color:red" font-family= "Source Sans Pro", sans-serif><%= request.getAttribute("error") %></h2>
+                      <% } %>
+                      <form action="/register" method="POST">
+                      <label for="username">Username: </label>
+                      <input type="text" name="username" id="username">
+                      <br/>
+                      <label for="password">Password: </label>
+                      <input type="password" name="password" id="password">
+                      <br/><br/>
+                      <button type="submit">Submit</button>
+                      </form>
                   </div>
                 </div>
               </div>
+            </div>
+  </div>
 <%@ include file = "FooterForBootsrap.html" %>
 </body>
 </html>
+
