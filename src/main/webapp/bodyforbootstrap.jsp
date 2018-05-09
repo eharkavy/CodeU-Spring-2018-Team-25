@@ -33,6 +33,14 @@
           <a href="/login" class="nav-link">Login</a>
         <% } %>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <% if(request.getSession().getAttribute("user") != null) {%>
+        <% if(request.getSession().getAttribute("user").equals("admin")){ %>
+          <a href="/admin" class="nav-link">Admin</a>
+        <% } %>
+      <% } %>
+      </li>
+
     </ul>
 
     <!-- SEARCH FORM -->

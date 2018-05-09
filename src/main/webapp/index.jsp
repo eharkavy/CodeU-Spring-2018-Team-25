@@ -54,6 +54,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <a href="/login" class="nav-link">Login</a>
         <% } %>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <% if(request.getSession().getAttribute("user") != null) {%>
+        <% if(request.getSession().getAttribute("user").equals("admin")){ %>
+          <a href="/admin" class="nav-link">Admin</a>
+        <% } %>
+      <% } %>
+      </li>
     </ul>
 
     <!-- SEARCH FORM -->
@@ -269,8 +276,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       create or join a conversation.</li>
                       <li>View the <a href="/about.jsp" class="text-primary"><strong>about</strong></a> page to learn more about the
                       project.</li>
-                      <li>You can <a href="/testdata" class="text-primary"><strong>load test data</strong></a> to fill the site with
-                      example data.</li>
+                       <% if(request.getSession().getAttribute("user") != null) {%>
+                        <% if(request.getSession().getAttribute("user").equals("admin")){ %>
+                          <li>You can <a href="/admin" class="text-primary"><strong>load test data</strong></a> to fill the site with
+                          example data.</li>
+                        <% } %>
+                      <% } %>
                     </p>
                 </div>
               </div>
