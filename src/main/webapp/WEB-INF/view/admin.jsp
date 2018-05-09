@@ -19,7 +19,7 @@
 	<% if(request.getSession().getAttribute("user").equals("admin")){ %>
 		<head>
   		  <title>Admin</title>
-  	 	  <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/main.css">
 		</head>
 		<body>
 
@@ -47,7 +47,6 @@
 <% if(request.getSession().getAttribute("user") == null || !(request.getSession().getAttribute("user").equals("admin"))) {%>
  	<head>
   	  <title>NICE TRY!</title>
-  	  <link rel="stylesheet" href="/css/main.css">
 	</head>
 	<body>
 	  <a id="navTitle" href="/"> NOT AN ADMIN!! </a>

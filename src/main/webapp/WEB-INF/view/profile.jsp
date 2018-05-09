@@ -27,7 +27,7 @@ String current_user = (String) request.getSession().getAttribute("user");
 <html>
   <head>
     <title><%= user.getName() %></title>
-    <link rel="stylesheet" href="/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
     <nav>

@@ -55,7 +55,7 @@ public class ConversationServletTest {
 
     mockResponse = Mockito.mock(HttpServletResponse.class);
     mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
-    Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/conversations.jsp"))
+    Mockito.when(mockRequest.getRequestDispatcher("/conversations.jsp"))
         .thenReturn(mockRequestDispatcher);
 
     mockConversationStore = Mockito.mock(ConversationStore.class);

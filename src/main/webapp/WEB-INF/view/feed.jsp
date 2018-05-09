@@ -24,8 +24,7 @@ List<String> events = (List<String>) request.getSession().getAttribute("events")
 <html>
 <head>
   <title>Activity</title>
-  <link rel="stylesheet" href="/css/main.css" type="text/css">
-
+  <link rel="stylesheet" href="/css/main.css">
   <style>
     #chat {
       background-color: white;
@@ -83,6 +82,5 @@ List<String> events = (List<String>) request.getSession().getAttribute("events")
     <hr/>
 
   </div>
-
 </body>
 </html>

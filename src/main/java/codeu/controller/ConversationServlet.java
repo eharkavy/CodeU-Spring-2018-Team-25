@@ -72,7 +72,7 @@ public class ConversationServlet extends HttpServlet {
       throws IOException, ServletException {
     List<Conversation> conversations = conversationStore.getAllConversations();
     request.setAttribute("conversations", conversations);
-    request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
+    request.getRequestDispatcher("/conversations.jsp").forward(request, response);
   }
 
   /**
@@ -102,7 +102,7 @@ public class ConversationServlet extends HttpServlet {
     String conversationTitle = request.getParameter("conversationTitle");
     if (!conversationTitle.matches("[\\w*]*")) {
       request.setAttribute("error", "Please enter only letters and numbers.");
-      request.getRequestDispatcher("/WEB-INF/view/conversations.jsp").forward(request, response);
+      request.getRequestDispatcher("/conversations.jsp").forward(request, response);
       return;
     }
 

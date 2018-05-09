@@ -45,7 +45,7 @@ public class RegisterServlet extends HttpServlet {
  public void doGet(HttpServletRequest request, HttpServletResponse response)
      throws IOException, ServletException {
 
-   request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+   request.getRequestDispatcher("/register.jsp").forward(request, response);
  }
 
   @Override
@@ -59,13 +59,13 @@ public class RegisterServlet extends HttpServlet {
 
    if (!username.matches("[\\w*\\s*]*")) {
      request.setAttribute("error", "Please enter only letters, numbers, and spaces.");
-     request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+     request.getRequestDispatcher("/register.jsp").forward(request, response);
      return;
    }
 
    if (userStore.isUserRegistered(username) || username == "admin") {
-     request.setAttribute("error", "That username is already taken.");
-     request.getRequestDispatcher("/WEB-INF/view/register.jsp").forward(request, response);
+     request.setAttribute("error", "That Username is already taken.");
+     request.getRequestDispatcher("/register.jsp").forward(request, response);
      return;
    }
 

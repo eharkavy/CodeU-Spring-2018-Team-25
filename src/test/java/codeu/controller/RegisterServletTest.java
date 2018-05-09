@@ -28,7 +28,7 @@ public class RegisterServletTest {
    mockRequest = Mockito.mock(HttpServletRequest.class);
    mockResponse = Mockito.mock(HttpServletResponse.class);
    mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
-   Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/register.jsp"))
+   Mockito.when(mockRequest.getRequestDispatcher("/register.jsp"))
        .thenReturn(mockRequestDispatcher);
  }
 
@@ -87,7 +87,7 @@ public class RegisterServletTest {
 
     registerServlet.doPost(mockRequest, mockResponse);
 
-    Mockito.verify(mockRequest).setAttribute("error", "That username is already taken.");
+    Mockito.verify(mockRequest).setAttribute("error", "That Username is already taken.");
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
    
   }
@@ -106,7 +106,7 @@ public class RegisterServletTest {
 
     registerServlet.doPost(mockRequest, mockResponse);
 
-    Mockito.verify(mockRequest).setAttribute("error", "That username is already taken.");
+    Mockito.verify(mockRequest).setAttribute("error", "That Username is already taken.");
     Mockito.verify(mockRequestDispatcher).forward(mockRequest, mockResponse);
   }
 }

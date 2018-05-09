@@ -26,8 +26,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 <html>
 <head>
   <title><%= conversation.getTitle() %></title>
-  <link rel="stylesheet" href="/css/main.css" type="text/css">
-
+  <link rel="stylesheet" href="/css/main.css">
   <style>
     #chat {
       background-color: white;
@@ -77,7 +76,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <form action="/chat/<%= conversation.getTitle() %>" method="POST">
         <input type="text" name="message">
         <br/>
-        <button type="submit">Send</button>
+        <button type="submit">Sendd</button>
     </form>
     <% } else { %>
       <p><a href="/login">Login</a> to send a message.</p>
@@ -86,6 +85,5 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <hr/>
 
   </div>
-
 </body>
 </html>
