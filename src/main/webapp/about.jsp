@@ -19,7 +19,7 @@
   <%@ include file = "HeaderForBootstrap.html" %>
 </head>
 <body class="hold-transition sidebar-mini">
-  <%@ include file = "bodyforbootstrap.html" %>
+  <%@ include file = "bodyforbootstrap.jsp" %>
   <!-- Content Wrapper. Contains page content-->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->

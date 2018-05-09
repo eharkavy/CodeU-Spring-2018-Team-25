@@ -1,26 +1,5 @@
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-
-  <title>Optimized Primes</title>
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="plugins/font-awesome/css/font-awesome.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-</head>
-<body class="hold-transition sidebar-mini">
 <div class="wrapper">
-
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
     <!-- Left navbar links -->
@@ -29,22 +8,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="/index.html" class="nav-link">Home</a>
+        <a href="/index.jsp" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="/conversations" class="nav-link">Conversations</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-          <a href="/register" class="nav-link">Register</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="/login" class="nav-link">Login</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="/about.jsp" class="nav-link">About</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="/feed" class="nav-link">Feed</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <% if(request.getSession().getAttribute("user") != null){ %>
+        <a href=# class="nav-link">Hello <%= request.getSession().getAttribute("user") %>!</a>
+        <% } else{ %>
+        <a href="/register" class="nav-link">Register</a>
+        <% } %>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <% if(request.getSession().getAttribute("user") != null){ %>
+          <a href="/login" class="nav-link">Logout</a>
+        <% } else{ %>
+          <a href="/login" class="nav-link">Login</a>
+        <% } %>
       </li>
     </ul>
 
@@ -158,7 +145,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="index.jsp" class="brand-link">
       <!-- logo can  put different image if we want it -->
       <img src="dist/img/optimize.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
            style="opacity: .8">
@@ -174,7 +161,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <div class="info">
           <!--for later when adding usernames-->
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <% if(request.getSession().getAttribute("user") != null){ %>
+              <a href="#" class="d-block"><%= request.getSession().getAttribute("user") %></a>
+          <% } else{ %>
+              <a href="#" class="d-block">User</a>
+          <% } %>
         </div>
       </div>
 
@@ -221,145 +212,3 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- /.sidebar -->
   </aside>
-
-  <!-- Content Wrapper. Contains page content-->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark">CodeU Chat App</h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">CodeU Chat App</li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content Don't need this for all-->
-    <div class="content">
-      <div class="container-fluid">
-         <div class="row">
-            <div class="col-lg-6">
-          <!-- <div class="card w-75"> -->
-              <div class="card text-white bg-dark mb-3">
-                  <div class="card-body">
-                    <h5 class="card-title">CodeU Chat App by Team Optimized Primes</h5>
-                    <p class="card-text">
-                      <li><a href="/login" class="text-primary"><strong>Login</strong></a> to get started.</li>
-                      <li>Go to the <a href="/conversations" class="text-primary"><strong>Conversations</strong></a> page to
-                      create or join a conversation.</li>
-                      <li>View the <a href="/about.jsp" class="text-primary"><strong>about</strong></a> page to learn more about the
-                      project.</li>
-                      <li>You can <a href="/testdata" class="text-primary"><strong>load test data</strong></a> to fill the site with
-                      example data.</li>
-                    </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card border-dark mb-3 h-70">
-                  <div class="card-body text-dark">
-                    <h5 class="card-title">Meet The Team</h5>
-                    <p class="card-text">
-                       We are the awesome team of elite programmers brought together by Google known    as ...Optimized Primes. We all come from different parts of the East Coast    and are in the process of developing the greatest chat app ever.
-                        <ul>
-                          <li><strong>Elizabeth Harkavy:</strong> I am a sophomore at MIT. I'm majoring     in Computer Science and Physics. I rewrite gravity so that it pulls customers     to our app.</li>
-                          <li><strong>Gabrielle Blom:</strong> I am a sophomore at Emory. I'm majoring    in Computer Science and Polical Science. I lobby to the federal government    for our app to be taught in elementary schools.</li>
-                          <li><strong>James Garcia-Otero:</strong> I am a sophomore at the University     of Virginia. I major in Computer Engineering and Electrical Engineering. I    build the machines we run on.</li>
-                          <li><strong>Jiachen Jiang:</strong> I am a sophomore at Dartmouth. I'm    majoring in Computer Science and minoring in Human-Centered Design. I create    new humans in the lab to test our app on.</li>
-                        </ul>
-                    </p>
-                  </div>
-                </div>
-              </div>
-               <!--  <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a> -->
-          <!--   </div> -->
-
-            <!-- <div class="card card-primary card-outline">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div> --> <!-- /.card -->
-          <!-- </div> -->
-          <!-- /.col-md-6 -->
-          <!-- <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
-            </div>
-          </div> -->
-          <!-- /.col-md-6 -->
-        <!-- </div> -->
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <!-- Control Sidebar we can re-add if want it -->
-  <!-- <aside class="control-sidebar control-sidebar-dark">
-    Control sidebar content goes here
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside> -->
-  <!-- /.control-sidebar -->
-
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-      Anything you want
-    </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-  </footer>
-</div>
-<!-- ./wrapper -->
-
-<!-- REQUIRED SCRIPTS -->
-
-<!-- jQuery -->
-<script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="dist/js/adminlte.min.js"></script>
-</body>
-</html>

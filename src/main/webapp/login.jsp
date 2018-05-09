@@ -19,7 +19,7 @@
   <%@ include file = "HeaderForBootstrap.html" %>
 </head>
 <body class="hold-transition sidebar-mini">
-  <%@ include file = "bodyforbootstrap.html" %>
+  <%@ include file = "bodyforbootstrap.jsp" %>
   <!-- Content Wrapper. Contains page content-->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -61,9 +61,6 @@
                     </form>
                     <% } else {%>
                     <form action="/login" method="POST">
-                    <li class="nav-item d-none d-sm-inline-block">
-                      <a href="/register" class="nav-link">New User?</a>
-                    </li>
                     <button type="submit" value="logout" name="logout">Logout</button>
                     </form>
                     <% } %>
