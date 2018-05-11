@@ -1,4 +1,4 @@
-<%--
+<!-- <%--
   Copyright 2017 Google Inc.
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,72 +13,52 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 --%>
-<%@ page import="java.util.List" %>
-<%@ page import="codeu.model.data.Conversation" %>
-<%@ page import="codeu.model.data.Message" %>
-<%@ page import="codeu.model.store.basic.UserStore" %>
-<%
-Conversation conversation = (Conversation) request.getAttribute("conversation");
-List<Message> messages = (List<Message>) request.getAttribute("messages");
-%>
 
 <!DOCTYPE html>
 <html>
 <head>
-      <title><%= conversation.getTitle() %></title>
-    <link rel="stylesheet" href="/css/main.css">
-  <style>
-    #chat {
-      background-color: white;
-      height: 500px;
-      overflow-y: scroll
-    }
-  </style>
-
-  <script>
-    // scroll the chat div to the bottom
-    function scrollChat() {
-      var chatDiv = document.getElementById('chat');
-      chatDiv.scrollTop = chatDiv.scrollHeight;
-    };
-  </script>
+  <%@ include file = "HeaderForBootstrap.html" %>
 </head>
-<body onload="scrollChat()">
-  <div id="container">
-
-    <h1><%= conversation.getTitle() %>
-      <a href="" style="float: right">&#8635;</a></h1>
-
-    <hr/>
-
-    <div id="chat">
-      <ul>
-    <%
-      for (Message message : messages) {
-        String author = UserStore.getInstance()
-          .getUser(message.getAuthorId()).getName();
-    %>
-      <li><strong><a href="/profile/<%= author %>"><%= author %>:</a></strong> <%= message.getContent() %></li>
-    <%
-      }
-    %>
-      </ul>
+<body class="hold-transition sidebar-mini">
+  <%@ include file = "bodyforbootstrap.jsp" %>
+  <!-- Content Wrapper. Contains page content-->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">About</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">About</a></li>
+              <li class="breadcrumb-item active">CodeU Chat App</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
     </div>
-
-    <hr/>
-
-    <% if (request.getSession().getAttribute("user") != null) { %>
-    <form action="/chat/<%= conversation.getTitle() %>" method="POST">
-        <input type="text" name="message">
-        <br/>
-        <button type="submit">Send</button>
-    </form>
-    <% } else { %>
-      <p><a href="/login">Login</a> to send a message.</p>
-    <% } %>
-
-    <hr/>
-
-  </div>
+    <!-- /.content-header -->
+       <div class="content">
+          <div class="container-fluid">
+                  <div class="card text-white bg-dark mb-3 w-75">
+                      <div class="card-body">
+                        <h5 class="card-title">Meet The Team</h5>
+                        <p class="card-text">    
+                          We are the awesome team of elite programmers brought together by Google known    as ...Optimized Primes. We all come from different parts of the East Coast    and are in the process of developing the greatest chat app ever.
+                        <ul>
+                          <li><strong>Elizabeth Harkavy:</strong> I am a sophomore at MIT. I'm majoring     in Computer Science and Physics. I rewrite gravity so that it pulls customers     to our app.</li>
+                          <li><strong>Gabrielle Blom:</strong> I am a sophomore at Emory. I'm majoring    in Computer Science and Polical Science. I lobby to the federal government    for our app to be taught in elementary schools.</li>
+                          <li><strong>James Garcia-Otero:</strong> I am a sophomore at the University     of Virginia. I major in Computer Engineering and Electrical Engineering. I    build the machines we run on.</li>
+                          <li><strong>Jiachen Jiang:</strong> I am a sophomore at Dartmouth. I'm    majoring in Computer Science and minoring in Human-Centered Design. I create    new humans in the lab to test our app on.</li>
+                        </ul>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+<%@ include file = "FooterForBootsrap.html" %>
 </body>
 </html>
