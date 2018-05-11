@@ -89,7 +89,7 @@ public class ChatServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     String requestUrl = request.getRequestURI();
-    String conversationTitle = requestUrl.substring("/chat/".length());
+    String conversationTitle = requestUrl.substring("/chat".length());
 
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
     if (conversation == null) {
@@ -133,7 +133,7 @@ public class ChatServlet extends HttpServlet {
     }
 
     String requestUrl = request.getRequestURI();
-    String conversationTitle = requestUrl.substring("/chat/".length());
+    String conversationTitle = requestUrl.substring("/chat".length());
 
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
     if (conversation == null) {
@@ -160,6 +160,6 @@ public class ChatServlet extends HttpServlet {
     messageStore.addMessage(message);
 
     // redirect to a GET request
-    response.sendRedirect("/chat/" + conversationTitle);
+    response.sendRedirect("/chat" + conversationTitle);
   }
 }
