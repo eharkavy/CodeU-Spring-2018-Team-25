@@ -105,7 +105,7 @@ public class ChatServlet extends HttpServlet {
 
     request.setAttribute("conversation", conversation);
     request.setAttribute("messages", messages);
-    request.getRequestDispatcher("/WEB-INF/view/chat.jsp").forward(request, response);
+    request.getRequestDispatcher("/chat.jsp").forward(request, response);
   }
 
   /**
@@ -141,17 +141,12 @@ public class ChatServlet extends HttpServlet {
       response.sendRedirect("/conversations");
       return;
     }
-    //currently does not account for sentences
+
     String messageContent = request.getParameter("message");
     // this used to remove any HTML from the message content
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
     //changed to markdown feature so it keeps approved HTML
     String cleanedMssgWithMarkdown = Processor.process(cleanedMessageContent);
-    // String RegexPattern = "<ul>";  
-    // String output = Regex.Replace(cleanedMssgWithMarkdown, RegexPattern , "");
-
-    // String RegexPattern = "</ul>";  
-    // String output = Regex.Replace(cleanedMssgWithMarkdown, RegexPattern , "");
 
     Message message =
         new Message(
@@ -159,6 +154,7 @@ public class ChatServlet extends HttpServlet {
             conversation.getId(),
             user.getId(),
             cleanedMssgWithMarkdown.substring(3, cleanedMssgWithMarkdown.length()-2),
+            // messageContent,
             Instant.now());
 
     messageStore.addMessage(message);

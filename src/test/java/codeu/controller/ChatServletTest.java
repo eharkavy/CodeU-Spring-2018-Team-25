@@ -58,7 +58,7 @@ public class ChatServletTest {
 
     mockResponse = Mockito.mock(HttpServletResponse.class);
     mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
-    Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/chat.jsp"))
+    Mockito.when(mockRequest.getRequestDispatcher("/chat.jsp"))
         .thenReturn(mockRequestDispatcher);
 
     mockConversationStore = Mockito.mock(ConversationStore.class);

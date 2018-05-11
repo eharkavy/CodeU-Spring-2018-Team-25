@@ -25,8 +25,8 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= conversation.getTitle() %></title>
-  <link rel="stylesheet" href="/css/main.css">
+     <title><%= conversation.getTitle() %></title>
+    <link rel="stylesheet" href="/css/main.css">
   <style>
     #chat {
       background-color: white;
@@ -44,11 +44,6 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
   </script>
 </head>
 <body onload="scrollChat()">
-
-  <nav>
-    <%@ include file = "header.jsp" %>
-  </nav>
-
   <div id="container">
 
     <h1><%= conversation.getTitle() %>
@@ -76,7 +71,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <form action="/chat/<%= conversation.getTitle() %>" method="POST">
         <input type="text" name="message">
         <br/>
-        <button type="submit">Sendd</button>
+        <button type="submit">Send</button>
     </form>
     <% } else { %>
       <p><a href="/login">Login</a> to send a message.</p>
