@@ -89,7 +89,8 @@ public class ChatServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     String requestUrl = request.getRequestURI();
-    String conversationTitle = requestUrl.substring("/chat".length());
+    String conversationTitle = request.getParameter("title");
+    		//requestUrl.substring("/chat".length());
 
     Conversation conversation = conversationStore.getConversationWithTitle(conversationTitle);
     if (conversation == null) {

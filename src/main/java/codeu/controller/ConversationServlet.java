@@ -109,7 +109,7 @@ public class ConversationServlet extends HttpServlet {
     if (conversationStore.isTitleTaken(conversationTitle)) {
       // conversation title is already taken, just go into that conversation instead of creating a
       // new one
-      response.sendRedirect("/chat" + conversationTitle);
+      response.sendRedirect("/chat?title=" + conversationTitle);
       return;
     }
 
@@ -117,6 +117,6 @@ public class ConversationServlet extends HttpServlet {
         new Conversation(UUID.randomUUID(), user.getId(), conversationTitle, Instant.now());
 
     conversationStore.addConversation(conversation);
-    response.sendRedirect("/chat" + conversationTitle);
+    response.sendRedirect("/chat?title=" + conversationTitle);
   }
 }
