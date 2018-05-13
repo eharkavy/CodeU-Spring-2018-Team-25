@@ -17,14 +17,25 @@
 <%@ page import="codeu.model.data.Conversation" %>
 <%@ page import="codeu.model.data.Message" %>
 <%@ page import="codeu.model.store.basic.UserStore" %>
+<%
+Conversation conversation = (Conversation) request.getAttribute("conversation");
+List<Message> messages = (List<Message>) request.getAttribute("messages");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
-  <%@ include file = "HeaderForBootstrap.html" %>
+    <%@ include file = "HeaderForBootstrap.html" %>
+  <script>
+    // scroll the chat div to the bottom
+    function scrollChat() {
+      var chatDiv = document.getElementById('chat');
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    };
+  </script>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini" onload="scrollChat()">
   <%@ include file = "bodyforbootstrap.jsp" %>
-  <!-- Content Wrapper. Contains page content-->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -42,47 +53,71 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
-       <div class="content">
-          <div class="container-fluid">
-                  <div class="card text-white bg-dark mb-3 w-75">
-                      <div class="card-body">
-                        <%
-                          Conversation conversation = (Conversation) request.getAttribute("conversation");
-                          List<Message> messages = (List<Message>) request.getAttribute("messages");
-                        %>
-                        <h5 class="card-title"><%= conversation.getTitle() %></h5>
-                        <p class="card-text">    
-                            <%  for (Message message : messages) {
-                              String author = UserStore.getInstance()
-                              .getUser(message.getAuthorId()).getName();
-                            %>
-                            <li><strong><a href="/profile/<%= author %>"><%= author %>:</a></strong> <%= message.getContent() %></li>
-                            <%
-                            }
-                            %>
-                            </ul>
-                            </div>
-                            <hr/>
-                            <% if (request.getSession().getAttribute("user") != null) { %>
-                            <form action="/chat/<%= conversation.getTitle() %>" method="POST">
-                            <input type="text" name="message">
-                            <br/>
-                            <button type="submit">Send</button>
-                            </form>
-                            <% } else { %>
-                            <p><a href="/login">Login</a> to send a message.</p>
-                            <% } %>
-                            <hr/>
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+  <div class="content">
+      <div class="container-fluid">
+  <div class="card card-danger direct-chat direct-chat-danger mb-0 w-50">
+        <div class="card-header with-border">
+          <h3 class="card-title"><%= conversation.getTitle() %></h3>
+          <!-- <div class="box-tools pull-right">
+            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div> -->
+        </div><!-- /.box-header -->
+        <div class="card-body">
+          <!-- Conversations are loaded here -->
+          <div id = 'chat' class="direct-chat-messages">
+            <%
+                    for (Message message : messages) {
+                    String author = UserStore.getInstance()
+                    .getUser(message.getAuthorId()).getName();
+              %>
+            <!-- Message. Default to the left -->
+            <div class="direct-chat-msg">
+              <% if(request.getSession().getAttribute("user") == author){ %>
+                <div class="direct-chat-info clearfix">
+                  <!-- get your name -->
+                  <span class="direct-chat-name pull-left"><strong><a href="/profile/<%= author %>"><%= author %></a></strong></span>
+                </div><!-- /.direct-chat-info -->
+                <div class="direct-chat-text">
+                  <!-- Message content -->
+                  <%= message.getContent() %>
+                </div><!-- /.direct-chat-text -->
+              </div><!-- /.direct-chat-msg -->
+            <% } else{ %>
+            <!-- Message to the right -->
+              <div class="direct-chat-msg right">
+                <div class="direct-chat-info clearfix">
+                  <span class="direct-chat-name pull-right"><strong><a href="/profile/<%= author %>"><%= author %></a></strong></span>
+                </div> <!-- /.direct-chat-info -->
+                <div class="direct-chat-text">
+                   <%= message.getContent() %>
+                </div><!-- /.direct-chat-text -->
+              </div><!-- /.direct-chat-msg -->
+            <% } %>
+            <% } %>  
+          </div><!-- /.direct-chat-pane -->
+        </div><!-- /.box-body -->
+        </div>
+        <div class="card-footer">
+            <div class="input-group">
+                <% if (request.getSession().getAttribute("user") != null) { %>
+                        <form action="/chat?title=<%= conversation.getTitle() %>" method="POST">
+                        <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                        <span class="input-group-btn">
+                          <button type="submit" class="btn btn-danger btn-flat">Send</button>
+                        </span>
+                        </form>
+                    <% } else { %>
+                      <p><a href="/login">Login</a> to send a message.</p>
+                    <% } %>  
               </div>
-<%@ include file = "FooterForBootsrap.html" %>
+          </div><!--/.direct-chat -->
+        </div>
+      </div>
+    </div>
+  <%@ include file = "FooterForBootsrap.html" %>
 </body>
 </html>
 
- 
+
 
