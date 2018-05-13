@@ -25,6 +25,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 <!DOCTYPE html>
 <html>
 <head>
+    <%@ include file = "HeaderForBootstrap.html" %>
      <title><%= conversation.getTitle() %></title>
     <link rel="stylesheet" href="/css/main.css">
   <style>
@@ -43,7 +44,25 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     };
   </script>
 </head>
-<body onload="scrollChat()">
+<body class="hold-transition sidebar-mini" onload="scrollChat()">
+  <%@ include file = "bodyforbootstrap.jsp" %>
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Chat</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Chat</a></li>
+              <li class="breadcrumb-item active">CodeU Chat App</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
   <div id="container">
 
     <h1><%= conversation.getTitle() %>
@@ -80,5 +99,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
     <hr/>
 
   </div>
+</div>
+  <%@ include file = "FooterForBootsrap.html" %>
 </body>
 </html>

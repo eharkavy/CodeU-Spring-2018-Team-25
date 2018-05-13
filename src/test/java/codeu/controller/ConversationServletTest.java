@@ -134,7 +134,7 @@ public class ConversationServletTest {
 
     Mockito.verify(mockConversationStore, Mockito.never())
         .addConversation(Mockito.any(Conversation.class));
-    Mockito.verify(mockResponse).sendRedirect("/chattest_conversation");
+    Mockito.verify(mockResponse).sendRedirect("?title=chattest_conversation");
   }
 
   @Test
@@ -155,6 +155,6 @@ public class ConversationServletTest {
     Mockito.verify(mockConversationStore).addConversation(conversationArgumentCaptor.capture());
     Assert.assertEquals(conversationArgumentCaptor.getValue().getTitle(), "test_conversation");
 
-    Mockito.verify(mockResponse).sendRedirect("/chattest_conversation");
+    Mockito.verify(mockResponse).sendRedirect("?title=chattest_conversation");
   }
 }
