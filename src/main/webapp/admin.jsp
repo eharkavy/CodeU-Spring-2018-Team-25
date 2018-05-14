@@ -96,7 +96,7 @@
      </div>
     </div>
     
-    <%@ include file = "FooterforBootsrap.html" %>
+    <%@ include file = "FooterForBootsrap.html" %>
   </body>
 <% } %>
 </html>
