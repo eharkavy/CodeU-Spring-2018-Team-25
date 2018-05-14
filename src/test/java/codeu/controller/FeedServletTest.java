@@ -55,7 +55,7 @@ public class FeedServletTest {
 
     mockResponse = Mockito.mock(HttpServletResponse.class);
     mockRequestDispatcher = Mockito.mock(RequestDispatcher.class);
-    Mockito.when(mockRequest.getRequestDispatcher("/WEB-INF/view/feed.jsp"))
+    Mockito.when(mockRequest.getRequestDispatcher("/feed.jsp"))
         .thenReturn(mockRequestDispatcher);
     dates = new ArrayList<>();
 	events = new ArrayList<>();
