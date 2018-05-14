@@ -62,7 +62,7 @@ public class FeedServlet extends HttpServlet {
     events = activityStore.getAllEvents();
     session.setAttribute("dates", dates);
     session.setAttribute("events", events);
-    request.getRequestDispatcher("/WEB-INF/view/feed.jsp").forward(request, response);
+    request.getRequestDispatcher("/feed.jsp").forward(request, response);
   }
 
 }
