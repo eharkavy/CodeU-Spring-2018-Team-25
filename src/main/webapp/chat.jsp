@@ -53,27 +53,24 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
+
   <div class="content">
       <div class="container-fluid">
-  <div class="card card-danger direct-chat direct-chat-danger mb-0 w-50">
+        <div class="card card-danger direct-chat direct-chat-danger mb-3 h-75 w-50 ">
         <div class="card-header with-border">
           <h3 class="card-title"><%= conversation.getTitle() %></h3>
-          <!-- <div class="box-tools pull-right">
-            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-          </div> -->
         </div><!-- /.box-header -->
         <div class="card-body">
           <!-- Conversations are loaded here -->
-          <div id = 'chat' class="direct-chat-messages">
+          <div id = "chat" class="direct-chat-messages">
             <%
                     for (Message message : messages) {
                     String author = UserStore.getInstance()
                     .getUser(message.getAuthorId()).getName();
               %>
             <!-- Message. Default to the left -->
-            <div class="direct-chat-msg">
               <% if(request.getSession().getAttribute("user") == author){ %>
+              <div class="direct-chat-msg left">
                 <div class="direct-chat-info clearfix">
                   <!-- get your name -->
                   <span class="direct-chat-name pull-left"><strong><a href="/profile/<%= author %>"><%= author %></a></strong></span>
@@ -83,7 +80,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
                   <%= message.getContent() %>
                 </div><!-- /.direct-chat-text -->
               </div><!-- /.direct-chat-msg -->
-            <% } else{ %>
+            <% } else { %>
             <!-- Message to the right -->
               <div class="direct-chat-msg right">
                 <div class="direct-chat-info clearfix">
@@ -95,26 +92,26 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
               </div><!-- /.direct-chat-msg -->
             <% } %>
             <% } %>  
-          </div><!-- /.direct-chat-pane -->
+        </div><!-- /.direct-chat-pane -->
         </div><!-- /.box-body -->
-        </div>
         <div class="card-footer">
-            <div class="input-group">
                 <% if (request.getSession().getAttribute("user") != null) { %>
                         <form action="/chat?title=<%= conversation.getTitle() %>" method="POST">
+                        <div class="input-group">
                         <input type="text" name="message" placeholder="Type Message ..." class="form-control">
                         <span class="input-group-btn">
                           <button type="submit" class="btn btn-danger btn-flat">Send</button>
                         </span>
-                        </form>
+                      </div>
+                      </form>
                     <% } else { %>
                       <p><a href="/login">Login</a> to send a message.</p>
                     <% } %>  
-              </div>
-          </div><!--/.direct-chat -->
         </div>
+            </div>
+          </div>
+          </div><!--/.direct-chat -->
       </div>
-    </div>
   <%@ include file = "FooterForBootsrap.html" %>
 </body>
 </html>
