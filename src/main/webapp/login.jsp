@@ -67,6 +67,8 @@
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
 <%@ include file = "FooterForBootsrap.html" %>
 </body>
 </html>
