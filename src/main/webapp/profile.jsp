@@ -26,13 +26,30 @@ String current_user = (String) request.getSession().getAttribute("user");
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= user.getName() %></title>
-    <link rel="stylesheet" href="/css/main.css">
+    <!-- <title><%= user.getName() %></title> -->
+    <%@ include file = "HeaderForBootstrap.html" %>
   </head>
   <body>
-    <nav>
-    <%@ include file = "header.jsp" %>
-    </nav>
+  <body class="hold-transition sidebar-mini">
+  <%@ include file = "bodyforbootstrap.jsp" %>
+  <!-- Content Wrapper. Contains page content-->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Profile</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Profile</a></li>
+              <li class="breadcrumb-item active">CodeU Chat App</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
     <h1 style= "text-align: center;"><%= user.getName() %>'s Profile Page</h1>
     <h2 style= "text-align: center;"> About User </h2>
         <p style= "text-align: center;"> <%= user.getAbout() %></p>
@@ -63,6 +80,8 @@ String current_user = (String) request.getSession().getAttribute("user");
       <br>
     </form>
     <hr style= "text-align: center;">
+  </div>
+  <%@ include file = "FooterForBootsrap.html" %>
   </body>
 </html>
 

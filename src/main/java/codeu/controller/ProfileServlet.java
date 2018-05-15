@@ -132,10 +132,6 @@ public class ProfileServlet extends HttpServlet {
     }
 
 	String profilePage = request.getParameter("profilepage");;
-	
-	
-	
-	
 
     String aboutContent = request.getParameter("aboutme");
 

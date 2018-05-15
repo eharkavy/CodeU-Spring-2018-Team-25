@@ -148,9 +148,6 @@ public class ChatServlet extends HttpServlet {
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
     //changed to markdown feature so it keeps approved HTML
     String cleanedMssgWithMarkdown = Processor.process(cleanedMessageContent);
-
-    String cleanedMssgWithMarkdown = Processor.process(cleanedMessageContent);
-    
     String clean = cleanedMssgWithMarkdown.replaceAll("<p>","").replaceAll("</p>", "");
 
 
