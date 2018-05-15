@@ -91,7 +91,7 @@ public class ProfileServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException, ServletException {
     String requestUrl = request.getRequestURI();
-    String userName = requestUrl.substring("/profile/".length());
+    String userName = request.getParameter("profilepage");
 
     User user = userStore.getUser(userName);
     if (user == null) {
@@ -107,7 +107,7 @@ public class ProfileServlet extends HttpServlet {
 
     request.setAttribute("user", user);
     request.setAttribute("aboutme", about);
-    request.getRequestDispatcher("/WEB-INF/view/profile.jsp").forward(request, response);
+    request.getRequestDispatcher("/profile.jsp").forward(request, response);
   }
   
   @Override
@@ -131,11 +131,7 @@ public class ProfileServlet extends HttpServlet {
       return;
     }
 
-	String profilePage = requestUrl.substring("/profile/".length());
-	
-	
-	
-	
+	String profilePage = request.getParameter("profilepage");;
 
     String aboutContent = request.getParameter("aboutme");
 
@@ -147,7 +143,7 @@ public class ProfileServlet extends HttpServlet {
 
 
     // redirect to a GET request
-    response.sendRedirect("/profile/" + username);
+    response.sendRedirect("/profile?profilepage=" + username);
   }
 
 
