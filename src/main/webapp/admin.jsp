@@ -72,7 +72,7 @@
         
         </div> <!-- content -->
         </div> <!-- /.content-wrapper -->
-        <%@ include file = "FooterforBootsrap.html" %>
+        <%@ include file = "FooterForBootsrap.html" %>
     </body>     
   <% } %>
 <% } %>
