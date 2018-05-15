@@ -147,15 +147,15 @@ public class ChatServlet extends HttpServlet {
     // this used to remove any HTML from the message content
     String cleanedMessageContent = Jsoup.clean(messageContent, Whitelist.none());
     //changed to markdown feature so it keeps approved HTML
-    String cleanedMssgWithMarkdown = Processor.process(cleanedMessageContent);
+    // String cleanedMssgWithMarkdown = Processor.process(cleanedMessageContent);
 
     Message message =
         new Message(
             UUID.randomUUID(),
             conversation.getId(),
             user.getId(),
-            cleanedMssgWithMarkdown.substring(3, cleanedMssgWithMarkdown.length()-2),
-            // messageContent,
+            // cleanedMssgWithMarkdown.substring(3, cleanedMssgWithMarkdown.length()-2),
+            messageContent,
             Instant.now());
 
     messageStore.addMessage(message);

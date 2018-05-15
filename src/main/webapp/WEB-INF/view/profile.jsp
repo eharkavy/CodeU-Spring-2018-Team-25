@@ -41,7 +41,7 @@ String current_user = (String) request.getSession().getAttribute("user");
     %>
       <h3 style= "text-align: center;"> Edit your About Me (only you can see this) </h3>
       
-      <form action="/profile/<%= user.getName() %>" method="POST">
+      <form action="/profile?profilepage=<%= user.getName() %>" method="POST">
         <input type="text" name="aboutme">
         <br/>
         <button type="submit">Edit</button>

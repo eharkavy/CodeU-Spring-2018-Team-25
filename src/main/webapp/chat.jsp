@@ -73,7 +73,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
               <div class="direct-chat-msg left">
                 <div class="direct-chat-info clearfix">
                   <!-- get your name -->
-                  <span class="direct-chat-name pull-left"><strong><a href="/profile/<%= author %>"><%= author %></a></strong></span>
+                  <span class="direct-chat-name pull-left"><strong><a href="/profile?profilepages=<%= author %>"><%= author %></a></strong></span>
                 </div><!-- /.direct-chat-info -->
                 <div class="direct-chat-text">
                   <!-- Message content -->
@@ -84,7 +84,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
             <!-- Message to the right -->
               <div class="direct-chat-msg right">
                 <div class="direct-chat-info clearfix">
-                  <span class="direct-chat-name pull-right"><strong><a href="/profile/<%= author %>"><%= author %></a></strong></span>
+                  <span class="direct-chat-name pull-right"><strong><a href="/profile?profilepages=<%= author %>"><%= author %></a></strong></span>
                 </div> <!-- /.direct-chat-info -->
                 <div class="direct-chat-text">
                    <%= message.getContent() %>
