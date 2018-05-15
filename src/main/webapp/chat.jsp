@@ -56,7 +56,7 @@ List<Message> messages = (List<Message>) request.getAttribute("messages");
 
   <div class="content">
       <div class="container-fluid">
-        <div class="card card-danger direct-chat direct-chat-danger mb-3 h-75 w-50 ">
+        <div class="card card-danger direct-chat direct-chat-danger mb-3 h-75 w-100 ">
         <div class="card-header with-border">
           <h3 class="card-title"><%= conversation.getTitle() %></h3>
         </div><!-- /.box-header -->
